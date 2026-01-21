@@ -444,7 +444,8 @@ function updatePageLanguage() {
   updateLanguageButtons();
 }
 
-// Initialize on page load
+// Initialize on page load with English as default
 document.addEventListener('DOMContentLoaded', () => {
+  setLanguage('en');
   updatePageLanguage();
 });
