@@ -213,7 +213,7 @@ const translations = {
     penetrationTestingServices: "Sızma Testi Hizmetleri",
     expertPenetrationTesting: "Hassas ve uzmanlık ile profesyonel sızma testi hizmetleri. Açıkları ihlale dönüşmeden önce tespit edin.",
     getProfessionalConsultation: "Profesyonel Danışmanlık Al",
-    ourServices: "Hizmetlerimiz",
+    ourServices: "Hizmetler",
     penetrationTesting: "Sızma Testi",
     vulnerabilityManagement: "Zafiyet Yönetimi",
     validationTesting: "Doğrulama Testi",
