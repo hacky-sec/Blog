@@ -93,6 +93,53 @@ window.addEventListener('load', () => {
     }
 });
 
+// EmailJS Configuration and Form Handler
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize EmailJS
+    emailjs.init('1gyCZUzw2pgcF1dJ');
+    
+    // Handle contact form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Prepare template parameters
+            const templateParams = {
+                name: name,
+                email: email,
+                message: message,
+                email_to: 'bogacirfancan@gmail.com'
+            };
+            
+            try {
+                // Send email using EmailJS
+                const response = await emailjs.send(
+                    'service_jqt31lf',      // Service ID
+                    'template_wr1xiq',      // Template ID
+                    templateParams
+                );
+                
+                if (response.status === 200) {
+                    // Show success message
+                    alert('Message sent successfully! I will get back to you soon.');
+                    contactForm.reset();
+                } else {
+                    alert('Failed to send message. Please try again.');
+                }
+            } catch (error) {
+                console.error('EmailJS error:', error);
+                alert('An error occurred while sending your message. Please try again.');
+            }
+        });
+    }
+});
+
 // Particles.js Initialization
 // NOTE: The 'particleConfigs' variable is expected to be defined. It was created in a previous step but is missing from the current context.
 document.addEventListener('DOMContentLoaded', () => {
