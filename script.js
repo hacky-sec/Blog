@@ -12,26 +12,33 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Mobile menu toggle
+// Mobile menu toggle and close functionality
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
-if (hamburger && navMenu) {
-    hamburger.addEventListener('click', () => {
+const toggleMobileMenu = () => {
+    if (hamburger && navMenu) {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
-    });
-}
+    }
+};
 
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
+const closeMobileMenu = () => {
+    if (hamburger && navMenu) {
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
-    });
+    }
+};
+
+if (hamburger) {
+    hamburger.addEventListener('click', toggleMobileMenu);
+}
+
+document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
 });
 
-// Animate elements on scroll
+// Scroll animation configuration
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -40,16 +47,18 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1'; // Make it a one-shot animation
+            entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
             observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Observe elements for animation
+// Initialize scroll animations on page load
 document.addEventListener('DOMContentLoaded', () => {
-    const animateElements = document.querySelectorAll('.service-card, .why-card, .step, .service-module, .method-card, .blog-card, .stat-item');
+    const animateElements = document.querySelectorAll(
+        '.service-card, .why-card, .step, .service-module, .method-card, .blog-card, .stat-item'
+    );
     
     animateElements.forEach(el => {
         el.style.opacity = '0';
@@ -62,41 +71,42 @@ document.addEventListener('DOMContentLoaded', () => {
 // Terminal typing effect
 window.addEventListener('load', () => {
     const terminalLines = document.querySelectorAll('.terminal-line');
-    if (terminalLines.length > 0) {
-        const linesToType = [
-            { el: terminalLines[0], text: '$ Penetration Testing', delay: 1000 },
-            { el: terminalLines[1], text: '$ Vulnerability Management', delay: 3000 },
-            { el: terminalLines[2], text: '$ Validation Testing', delay: 3000 },
-            { el: terminalLines[3], text: '$ Threat Intelligence Consultancy', delay: 3000 }
-        ];
+    if (terminalLines.length === 0) return;
 
-        function typeWriter(element, text, callback) {
-            let i = 0;
-            element.textContent = '';
-            function type() {
-                if (i < text.length) {
-                    element.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(type, 30);
-                } else if (callback) {
-                    callback();
-                }
+    const linesToType = [
+        { el: terminalLines[0], text: '$ Penetration Testing', delay: 1000 },
+        { el: terminalLines[1], text: '$ Vulnerability Management', delay: 3000 },
+        { el: terminalLines[2], text: '$ Validation Testing', delay: 3000 },
+        { el: terminalLines[3], text: '$ Threat Intelligence Consultancy', delay: 3000 }
+    ];
+
+    function typeWriter(element, text, callback) {
+        let i = 0;
+        element.textContent = '';
+        const interval = setInterval(() => {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(interval);
+                if (callback) callback();
             }
-            type();
-        }
-
-        let totalDelay = 0;
-        linesToType.forEach(line => {
-            totalDelay += line.delay;
-            setTimeout(() => typeWriter(line.el, line.text), totalDelay);
-        });
+        }, 30);
     }
+
+    let totalDelay = 0;
+    linesToType.forEach(line => {
+        totalDelay += line.delay;
+        setTimeout(() => typeWriter(line.el, line.text), totalDelay);
+    });
 });
 
 // EmailJS Configuration and Form Handler
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize EmailJS
-    emailjs.init('1gyCZUzw2pgcF1dJ');
+    // Initialize EmailJS with public key
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init('1gyCZUzw2pgcF1dJ');
+    }
     
     // Handle contact form submission
     const contactForm = document.getElementById('contactForm');
@@ -104,10 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Get form data
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+            // Validate form inputs
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            if (!name || !email || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
             
             // Prepare template parameters
             const templateParams = {
@@ -118,50 +133,80 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             
             try {
-                // Send email using EmailJS
                 const response = await emailjs.send(
-                    'service_jqt31lf',      // Service ID
-                    'template_wr1xiq',      // Template ID
+                    'service_jqt31lf',
+                    'template_wr1xiq',
                     templateParams
                 );
                 
                 if (response.status === 200) {
-                    // Show success message
                     alert('Message sent successfully! I will get back to you soon.');
                     contactForm.reset();
-                } else {
-                    alert('Failed to send message. Please try again.');
                 }
             } catch (error) {
-                console.error('EmailJS error:', error);
-                alert('An error occurred while sending your message. Please try again.');
+                console.error('EmailJS Error:', error);
+                alert('Failed to send message. Please try again later.');
             }
         });
     }
 });
 
 // Particles.js Initialization
-// NOTE: The 'particleConfigs' variable is expected to be defined. It was created in a previous step but is missing from the current context.
 document.addEventListener('DOMContentLoaded', () => {
-    if (typeof particlesJS !== 'undefined' && typeof particleConfigs !== 'undefined') {
-    // Home & Services IDs (Default Config)
+    // Check if particles library is loaded
+    if (typeof particlesJS === 'undefined') return;
+
+    // Default particle configuration for hero sections
+    const defaultConfig = {
+        particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: '#DC143C' },
+            shape: { type: 'circle' },
+            opacity: { value: 0.5 },
+            size: { value: 3, random: true },
+            move: { enable: true, speed: 2, direction: 'none', random: true }
+        },
+        interactivity: { events: { onhover: { enable: true, mode: 'repulse' } } }
+    };
+
+    // Lighter configuration for contact pages
+    const contactConfig = {
+        particles: {
+            number: { value: 50, density: { enable: true, value_area: 800 } },
+            color: { value: '#DC143C' },
+            shape: { type: 'circle' },
+            opacity: { value: 0.3 },
+            size: { value: 2, random: true },
+            move: { enable: true, speed: 1.5, direction: 'none', random: true }
+        },
+        interactivity: { events: { onhover: { enable: true, mode: 'repulse' } } }
+    };
+
+    // Elements that use default configuration
     const defaultIds = [
         'particles-js-home', 'particles-js-home-why', 'particles-js-home-stats',
-        'particles-js-services-hero', 'particles-js', 'particles-js-services-methodology', 'particles-js-services-certifications',
-        'particles-js-blog-hero', 'particles-js-blog-grid'
+        'particles-js-services-hero', 'particles-js', 'particles-js-services-methodology',
+        'particles-js-services-certifications', 'particles-js-blog-hero', 'particles-js-blog-grid'
     ];
 
-    // Contact IDs (Contact Config - slightly lighter)
+    // Elements that use contact (lighter) configuration
     const contactIds = [
         'particles-js-contact-hero', 'particles-js-contact-process', 'particles-js-contact-skills'
     ];
 
+    // Initialize particles for default elements
     defaultIds.forEach(id => {
-        if (document.getElementById(id)) particlesJS(id, particleConfigs.default);
+        const element = document.getElementById(id);
+        if (element) {
+            particlesJS(id, defaultConfig);
+        }
     });
 
+    // Initialize particles for contact elements
     contactIds.forEach(id => {
-        if (document.getElementById(id)) particlesJS(id, particleConfigs.contact);
+        const element = document.getElementById(id);
+        if (element) {
+            particlesJS(id, contactConfig);
+        }
     });
-    }
 });
