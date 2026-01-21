@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacky Security - Precision in Offensive Security</title>
+    <meta name="description" content="Professional penetration testing services. We hack your systems before hackers do.">
+    <link rel="icon" type="image/png" href="hacker-icon.svg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hackysecurity.com/services.html">
+    <meta property="og:title" content="Hacky Security - Services">
+    <meta property="og:description" content="Professional penetration testing services. We hack your systems before hackers do.">
+    <meta property="og:image" content="https://hackysecurity.com/hackylogo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://hackysecurity.com/services.html">
+    <meta name="twitter:title" content="Hacky Security - Services">
+    <meta name="twitter:description" content="Professional penetration testing services. We hack your systems before hackers do.">
+    <meta name="twitter:image" content="https://hackysecurity.com/hackylogo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="translations.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>HACKY</h2>
+                <span>Precision in Offensive Security</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="contact.html">About Me</a></li>
+                <li><a href="blog/blog.html">Blog</a></li>
+                <li class="lang-selector">
+                    <div class="lang-selector-buttons">
+                        <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                        <button class="lang-btn" onclick="setLanguage('tr')">TR</button>
+                    </div>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Services Hero -->
+    <section class="hero services-hero">
+        <div class="particles-bg" id="particles-js-services-hero"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span data-i18n="our">Our</span> <span class="highlight" data-i18n="ourServices">Services</span>
+                    </h1>
+                    <p class="hero-subtitle" data-i18n="ourServicesSubtitle">
+                        Comprehensive penetration testing solutions tailored to your security needs. I identify vulnerabilities before they become breaches.
+                    </p>
+                </div>
+                <div class="hero-image">
+                    <div class="services-hero-img">
+                        <div class="hero-image-glow"></div>
+                        <img src="resim.jpg" alt="Cybersecurity Services">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-header compact-header">
+    <h2 data-i18n="comprehensivePenTesting">Penetration Testing & Cybersecurity Consulting</h2>
+    <p data-i18n="comprehensivePenTestingDesc">I provide expert consultancy and hands-on services in all major penetration testing domains.</p>
+    </div>
+
+    <!-- Services -->
+    <section class="section bg-dark">
+        <div class="particles-bg" id="particles-js"></div>
+        <div class="container">
+            <div class="services-grid-futuristic">
+                <div class="service-module">
+                    <div class="module-glow"></div>
+                    <div class="module-content">
+                        <div class="module-icon">
+                            <i class="fas fa-globe"></i>
+                            <div class="icon-pulse"></div>
+                        </div>
+                        <h3 data-i18n="webApplicationTesting">Web Application Testing</h3>
+                        <p data-i18n="webApplicationTestingDesc">Comprehensive testing of web applications, APIs, and web services to identify security vulnerabilities including SQL injection, XSS, CSRF, and more.</p>
+                        <div class="module-features">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-module">
+                    <div class="module-glow"></div>
+                    <div class="module-content">
+                        <div class="module-icon">
+                            <i class="fas fa-network-wired"></i>
+                            <div class="icon-pulse"></div>
+                        </div>
+                        <h3 data-i18n="networkTesting">Network Testing</h3>
+                        <p data-i18n="networkTestingDesc">Testing of network infrastructure, servers, and network devices to identify security weaknesses and potential attack vectors.</p>
+                        <div class="module-features">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-module">
+                    <div class="module-glow"></div>
+                    <div class="module-content">
+                        <div class="module-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div class="icon-pulse"></div>
+                        </div>
+                        <h3 data-i18n="mobileApplicationTesting">Mobile Application Testing</h3>
+                        <p data-i18n="mobileApplicationTestingDesc">Security assessment of iOS and Android applications to identify mobile-specific vulnerabilities and data exposure risks.</p>
+                        <div class="module-features">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-module">
+                    <div class="module-glow"></div>
+                    <div class="module-content">
+                        <div class="module-icon">
+                            <i class="fas fa-user-secret"></i>
+                            <div class="icon-pulse"></div>
+                        </div>
+                        <h3 data-i18n="socialEngineeringWireless">Social Engineering & Wireless Testing</h3>
+                        <p data-i18n="socialEngineeringWirelessDesc">Comprehensive testing of human vulnerabilities through phishing, pretexting, and wireless network security assessments including Wi-Fi and other wireless technologies.</p>
+                        <div class="module-features">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-module">
+                    <div class="module-glow"></div>
+                    <div class="module-content">
+                        <div class="module-icon">
+                            <i class="fas fa-code"></i>
+                            <div class="icon-pulse"></div>
+                        </div>
+                        <h3 data-i18n="apiTesting">API Testing</h3>
+                        <p data-i18n="apiTestingDesc">Comprehensive API security testing to identify vulnerabilities in REST, SOAP, and GraphQL endpoints.</p>
+                        <div class="module-features">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-module">
+                    <div class="module-glow"></div>
+                    <div class="module-content">
+                        <div class="module-icon">
+                            <i class="fas fa-server"></i>
+                            <div class="icon-pulse"></div>
+                        </div>
+                        <h3 data-i18n="ddosTesting">DDoS Testing</h3>
+                        <p data-i18n="ddosTestingDesc">Distributed Denial of Service testing to assess network resilience and identify potential vulnerabilities against volumetric and application-layer attacks.</p>
+                        <div class="module-features">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology -->
+    <section class="section methodology-section">
+        <div class="particles-bg" id="particles-js-services-methodology"></div>
+        <div class="container">
+            <div class="methodology-content">
+                <div class="methodology-text">
+                    <h3 data-i18n="complianceTitle">Compliance & Regulatory Standards</h3>
+                    <p data-i18n="complianceDesc">We ensure our security services align with major international regulations and standards to help you maintain compliance and secure your infrastructure.</p>
+                </div>
+                
+                <div class="methodology-grid">
+                    <!-- ISO/IEC 27001:2022 -->
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="method-info">
+                            <h4 data-i18n="iso27001Title">ISO/IEC 27001:2022</h4>
+                            <p data-i18n="iso27001Desc">International standard for Information Security Management Systems (ISMS), ensuring confidentiality, integrity, and availability of data.</p>
+                        </div>
+                    </div>
+
+                    <!-- ISAE 3402 -->
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <div class="method-info">
+                            <h4 data-i18n="isae3402Title">ISAE 3402</h4>
+                            <p data-i18n="isae3402Desc">International assurance standard for reporting on controls at a service organization, demonstrating robust internal control systems.</p>
+                        </div>
+                    </div>
+
+                    <!-- HIPAA -->
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-hospital-user"></i>
+                        </div>
+                        <div class="method-info">
+                            <h4 data-i18n="hipaaTitle">HIPAA</h4>
+                            <p data-i18n="hipaaDesc">Health Insurance Portability and Accountability Act compliance for protecting sensitive patient health information and data privacy.</p>
+                        </div>
+                    </div>
+
+                    <!-- SOX -->
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="method-info">
+                            <h4 data-i18n="soxTitle">SOX</h4>
+                            <p data-i18n="soxDesc">Sarbanes-Oxley Act compliance ensuring the accuracy and reliability of corporate disclosures to protect investors from fraudulent activities.</p>
+                        </div>
+                    </div>
+
+                    <!-- PCI-DSS v4.0 -->
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="method-info">
+                            <h4 data-i18n="pciDssTitle">PCI-DSS v4.0</h4>
+                            <p data-i18n="pciDssDesc">The latest Payment Card Industry Data Security Standard for securing credit card transactions and protecting cardholder data.</p>
+                        </div>
+                    </div>
+
+                    <!-- TS 13638 -->
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="method-info">
+                            <h4 data-i18n="ts13638Title">TS 13638</h4>
+                            <p data-i18n="ts13638Desc">Turkish Standard for Information Technology Security Techniques, defining specific requirements for penetration testing services.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Contact Section -->
+    <section class="section bg-dark" id="get-in-touch">
+        <div class="particles-bg" id="particles-js-services-certifications"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="getInTouch">Get in Touch</h2>
+                <p data-i18n="readyToSecure">Ready to secure your systems? Contact me today.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3 data-i18n="getInTouch">Contact Form</h3>
+                    <form id="contactForm" action="https://formsubmit.co/bogacirfancan@gmail.com?success=1" method="POST">
+                        <input type="text" name="_honey" style="display:none">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" data-i18n="yourName" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" data-i18n="yourEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="company" name="company" placeholder="Company Name" data-i18n="companyName">
+                        </div>
+                        <div class="form-group">
+                            <select id="service" name="service" required>
+                                <option value="" data-i18n="selectService">Select Service</option>
+                                <option value="web" data-i18n="webApplicationTesting_opt">Web Application Testing</option>
+                                <option value="network" data-i18n="networkTesting_opt">Network Testing</option>
+                                <option value="mobile" data-i18n="mobileApplicationTesting_opt">Mobile Application Testing</option>
+                                <option value="social" data-i18n="socialEngineeringTesting">Social Engineering Testing</option>
+                                <option value="wireless" data-i18n="wirelessTesting">Wireless Testing</option>
+                                <option value="api" data-i18n="apiTesting_opt">API Testing</option>
+                                <option value="other" data-i18n="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Tell me about your security needs and project scope..." data-i18n="tellAboutNeeds" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-i18n="contactMe">Contact Me</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <h3 data-i18n="whyChooseSection">Why Choose Me?</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> <span data-i18n="whyItem1">Hands-on experience in penetration testing and cybersecurity</span></li>
+                        <li><i class="fas fa-check"></i> <span data-i18n="whyItem2">Comprehensive testing following industry standards</span></li>
+                        <li><i class="fas fa-check"></i> <span data-i18n="whyItem3">Detailed reporting with actionable recommendations</span></li>
+                        <li><i class="fas fa-check"></i> <span data-i18n="whyItem4">Ongoing support and consultation</span></li>
+                        <li><i class="fas fa-check"></i> <span data-i18n="whyItem5">Competitive pricing with no hidden costs</span></li>
+                        <li><i class="fas fa-check"></i> <span data-i18n="whyItem6">Fast turnaround times</span></li>
+                    </ul>
+                    
+                    <div class="contact-details">
+                        <p><i class="fas fa-envelope"></i> <a href="mailto:bogacirfancan@gmail.com" data-i18n="mail">Mail</a></p>
+                        <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/hackyman/" target="_blank">LinkedIn</a></p>
+                        <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="turkey">Turkey</span></p>
+                        <p><i class="fas fa-clock"></i> <span data-i18n="available24_7">Available 24/7 for urgent security incidents</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="services.html">Services</a>
+                    <a href="contact.html">About Me</a>
+                    <a href="blog/blog.html">Blog</a>
+                </div>
+                <div class="footer-logo">
+                    <h3 class="logo-text">
+                        <span class="logo-letter h">H</span>
+                        <span class="logo-icon">
+                            <i class="fas fa-user-secret"></i>
+                        </span>
+                        <span class="logo-letter c">C</span>
+                        <span class="logo-letter k">K</span>
+                        <span class="logo-letter y">Y</span>
+                    </h3>
+                    <p>Precision in Offensive Security</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Hacky Security. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

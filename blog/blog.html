@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacky Security - Blog</title>
+    <meta name="description" content="Latest cybersecurity news, technical analysis, and tips from Hacky Security.">
+    <link rel="icon" type="image/png" href="../hacker-icon.svg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hackysecurity.com/blog/blog.html">
+    <meta property="og:title" content="Hacky Security - Blog">
+    <meta property="og:description" content="Latest cybersecurity news, technical analysis, and tips from Hacky Security.">
+    <meta property="og:image" content="https://hackysecurity.com/hackylogo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://hackysecurity.com/blog/blog.html">
+    <meta name="twitter:title" content="Hacky Security - Blog">
+    <meta name="twitter:description" content="Latest cybersecurity news, technical analysis, and tips from Hacky Security.">
+    <meta name="twitter:image" content="https://hackysecurity.com/hackylogo.png">
+
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="../translations.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>HACKY</h2>
+                <span>Precision in Offensive Security</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../services.html">Services</a></li>
+                <li><a href="../contact.html">About Me</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li class="lang-selector">
+                    <div class="lang-selector-buttons">
+                        <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                        <button class="lang-btn" onclick="setLanguage('tr')">TR</button>
+                    </div>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Hero Section -->
+    <section class="hero blog-hero">
+        <div class="particles-bg" id="particles-js-blog-hero"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title"><span class="highlight" data-i18n="fromTheBlog">From The Blog</span></h1>
+                    <p class="hero-subtitle" data-i18n="fromTheBlogDesc">Summaries of my articles on Medium. Click to read the full post and get in touch for your security needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Grid Section -->
+    <section class="section bg-dark">
+        <div class="particles-bg" id="particles-js-blog-grid"></div>
+        <div class="container">
+            <div class="blog-grid">
+                <!-- Blog Card 1 -->
+                <div class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Automation in Pentesting">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Hacky Security</span>
+                        </div>
+                        <h3 class="blog-title" data-i18n="automationInPentesting">The Power of Automation in Penetration Testing</h3>
+                        <p class="blog-desc" data-i18n="automationInPentestingDesc">A brief overview of the role of automation tools in modern penetration testing and how they can deliver more effective results when combined with manual testing.</p>
+                        <div class="blog-card-footer">
+                            <a href="https://medium.com/@kullaniciadiniz/the-power-of-automation-in-penetration-testing-123456789" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="readOnMedium">Read on Medium</a>
+                            <div class="share-buttons">
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackysecurity.com/blog/blog.html" target="_blank" class="share-link" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="mailto:?subject=Check out this blog post from Hacky Security&body=Read more at https://hackysecurity.com/blog/blog.html" class="share-link" title="Share via Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Card 2 -->
+                <div class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" alt="Vulnerability Management">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Hacky Security</span>
+                        </div>
+                        <h3 class="blog-title" data-i18n="bestPracticesVulnerability">Best Practices in Vulnerability Management</h3>
+                        <p class="blog-desc" data-i18n="bestPracticesVulnerabilityDesc">Key considerations and industry best practices for identifying, prioritizing, and remediating vulnerabilities to maintain a strong security posture.</p>
+                        <div class="blog-card-footer">
+                            <a href="#" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="readOnMedium">Read on Medium</a>
+                            <div class="share-buttons">
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackysecurity.com/blog/blog.html" target="_blank" class="share-link" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="mailto:?subject=Check out this blog post from Hacky Security&body=Read more at https://hackysecurity.com/blog/blog.html" class="share-link" title="Share via Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Card 3 -->
+                <div class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Cybersecurity Trends">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Hacky Security</span>
+                        </div>
+                        <h3 class="blog-title" data-i18n="nextGenCybersecurity">Next-Gen Cybersecurity: Trends & Innovations</h3>
+                        <p class="blog-desc" data-i18n="nextGenCybersecurityDesc">Explore the latest trends in cybersecurity, including blockchain, AI, and next-gen defense strategies for modern organizations.</p>
+                        <div class="blog-card-footer">
+                            <a href="#" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="readOnMedium">Read on Medium</a>
+                            <div class="share-buttons">
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackysecurity.com/blog/blog.html" target="_blank" class="share-link" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="mailto:?subject=Check out this blog post from Hacky Security&body=Read more at https://hackysecurity.com/blog/blog.html" class="share-link" title="Share via Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Card 4 -->
+                <div class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1573166675026-6ecf0c623a32?auto=format&fit=crop&w=400&q=80" alt="Cloud Security">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Hacky Security</span>
+                        </div>
+                        <h3 class="blog-title" data-i18n="securingCloud">Securing Cloud Infrastructure: Best Practices</h3>
+                        <p class="blog-desc" data-i18n="securingCloudDesc">Learn essential security measures for cloud environments, from identity management to data protection and compliance requirements.</p>
+                        <div class="blog-card-footer">
+                            <a href="#" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="readOnMedium">Read on Medium</a>
+                            <div class="share-buttons">
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackysecurity.com/blog/blog.html" target="_blank" class="share-link" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="mailto:?subject=Check out this blog post from Hacky Security&body=Read more at https://hackysecurity.com/blog/blog.html" class="share-link" title="Share via Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Card 5 -->
+                <div class="blog-card">
+                    <div class="blog-card-image">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=400&q=80" alt="API Security">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-meta">
+                            <span><i class="fas fa-user"></i> Hacky Security</span>
+                        </div>
+                        <h3 class="blog-title" data-i18n="apiSecurity">API Security: Protecting Your Digital Endpoints</h3>
+                        <p class="blog-desc" data-i18n="apiSecurityDesc">Comprehensive guide to securing APIs against common threats, including authentication, rate limiting, and monitoring strategies.</p>
+                        <div class="blog-card-footer">
+                            <a href="#" class="btn btn-secondary" target="_blank" rel="noopener" data-i18n="readOnMedium">Read on Medium</a>
+                            <div class="share-buttons">
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackysecurity.com/blog/blog.html" target="_blank" class="share-link" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="mailto:?subject=Check out this blog post from Hacky Security&body=Read more at https://hackysecurity.com/blog/blog.html" class="share-link" title="Share via Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../index.html">Home</a>
+                    <a href="../services.html">Services</a>
+                    <a href="../contact.html">About Me</a>
+                    <a href="blog.html" class="active">Blog</a>
+                </div>
+                <div class="footer-logo">
+                    <h3 class="logo-text">
+                        <span class="logo-letter h">H</span>
+                        <span class="logo-icon">
+                            <i class="fas fa-user-secret"></i>
+                        </span>
+                        <span class="logo-letter c">C</span>
+                        <span class="logo-letter k">K</span>
+                        <span class="logo-letter y">Y</span>
+                    </h3>
+                    <p>Precision in Offensive Security</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Hacky Security. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacky Security - Precision in Offensive Security</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom styles for blog grid and card sizes -->
+    <style>
+        .blog-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 2rem;
+        }
+        .blog-card.enhanced-blog-card {
+            min-width: 420px;
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 540px;
+            box-sizing: border-box;
+            background: #181818;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px 0 rgba(0,0,0,0.12);
+            padding: 0 0 24px 0;
+            overflow: hidden;
+        }
+        .blog-thumb {
+            width: 100%;
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .blog-thumb img {
+            width: 90%;
+            max-width: 400px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        .blog-meta {
+            width: 90%;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+        .blog-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 18px 0 8px 0;
+            min-height: 40px;
+            max-height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            padding: 0 24px;
+        }
+        .blog-desc {
+            color: #ccc;
+            font-size: 1.02rem;
+            line-height: 1.5;
+            min-height: 72px;
+            max-height: 72px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            line-clamp: 4;
+            -webkit-box-orient: vertical;
+            margin-bottom: 18px;
+            padding: 0 24px;
+        }
+        .blog-readmore, .corporate-cta {
+            margin-top: auto;
+            padding: 0 24px;
+        }
+        .blog-readmore {
+            display: block;
+            margin: 0 auto 8px auto;
+            width: fit-content;
+            padding: 0 24px;
+        }
+        .corporate-cta {
+            font-size: 0.98rem;
+            color: #aaa;
+        }
+        @media (max-width: 1200px) {
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .blog-card.enhanced-blog-card {
+                min-width: 0;
+                max-width: 100%;
+                height: auto;
+            }
+        }
+        @media (max-width: 800px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            .blog-card.enhanced-blog-card {
+                min-width: 0;
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>HACKY</h2>
+                <span>Precision in Offensive Security</span>
+            </div>
+            <ul class="nav-menu">
+                                <li><a href="../index.html">Home</a></li>
+                                <li><a href="../services.html">Services</a></li>
+                                <li><a href="../contact.html">About Me</a></li>
+                                <li><a href="blog.html" class="active">Blog</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    <!-- Blog Section -->
+    <section class="blog-section">
+        <div class="blog-container">
+            <div class="section-header">
+                <h1 class="blog-title-en" style="font-size:2.5rem; margin-bottom:0.5rem;">Blog</h1>
+                <p style="font-size:1.2rem; color:#aaa;">Latest cybersecurity news, technical analysis, and tips from me.</p>
+            </div>
+            <div class="blog-grid">
+                <!-- Blog Card 1 (Medium Link) -->
+                <div class="blog-card enhanced-blog-card">
+                    <div class="blog-thumb" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Web3 Blockchain" style="display: block; margin: 0 auto;">
+                        <div class="blog-meta" style="width:100%; display:flex; justify-content:flex-end; margin-top:8px;">
+                            <span class="blog-author" style="text-align:right;"><i class="fas fa-user"></i> Hacky Team Pentest</span>
+                        </div>
+                    </div>
+                    <div class="blog-title">The Power of Automation in Penetration Testing</div>
+                    <div class="blog-desc">A brief overview of the role of automation tools in modern penetration testing and how they can deliver more effective results when combined with manual testing.</div>
+                    <a href="https://medium.com/@kullaniciadiniz/the-power-of-automation-in-penetration-testing-123456789" class="blog-readmore" target="_blank" rel="noopener">Read More</a>
+                    <div class="share-buttons enhanced-share">
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://medium.com/@kullaniciadiniz/the-power-of-automation-in-penetration-testing-123456789" target="_blank" class="share-linkedin" title="Share on LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="mailto:info@hackysecurity.com?subject=Check%20out%20this%20blog%20post!&body=https://medium.com/@kullaniciadiniz/the-power-of-automation-in-penetration-testing-123456789" class="share-email" title="Share via Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+<div class="corporate-cta">For more information, <a href="../services.html#get-in-touch">contact me</a>.</div>
+                </div>
+                <!-- Blog Card 2 -->
+                <div class="blog-card enhanced-blog-card">
+                    <div class="blog-thumb" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" alt="Blockchain Security" style="display: block; margin: 0 auto;">
+                        <div class="blog-meta" style="width:100%; display:flex; justify-content:flex-end; margin-top:8px;">
+                            <span class="blog-author" style="text-align:right;"><i class="fas fa-user"></i> Hacky Team Pentest</span>
+                        </div>
+                    </div>
+                    <div class="blog-title">Best Practices in Vulnerability Management</div>
+                    <div class="blog-desc">Key considerations and industry best practices for identifying, prioritizing, and remediating vulnerabilities.</div>
+                    <a href="blog-post-2.html" class="blog-readmore">Read More</a>
+                    <div class="share-buttons enhanced-share">
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackysecurity.com/blog/blog-post-2.html" target="_blank" class="share-linkedin" title="Share on LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="mailto:info@hackysecurity.com?subject=Check%20out%20this%20blog%20post!&body=https://hackysecurity.com/blog/blog-post-2.html" class="share-email" title="Share via Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                    <div class="corporate-cta">For more information, <a href="../services.html#get-in-touch">contact me</a>.</div>
+                </div>
+                <!-- Blog Card 3 -->
+                <div class="blog-card enhanced-blog-card">
+                    <div class="blog-thumb" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Cybersecurity Innovation" style="display: block; margin: 0 auto;">
+                        <div class="blog-meta" style="width:100%; display:flex; justify-content:flex-end; margin-top:8px;">
+                            <span class="blog-author" style="text-align:right;"><i class="fas fa-user"></i> Hacky Team Pentest</span>
+                        </div>
+                    </div>
+                    <div class="blog-title">Next-Gen Cybersecurity: Trends & Innovations</div>
+                    <div class="blog-desc">Explore the latest trends in cybersecurity, including blockchain, AI, and next-gen defense strategies for modern organizations.</div>
+                    <a href="#" class="blog-readmore">Read More</a>
+                    <div class="share-buttons enhanced-share">
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackysecurity.com/blog/blog-post-3.html" target="_blank" class="share-linkedin" title="Share on LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="mailto:info@hackysecurity.com?subject=Check%20out%20this%20blog%20post!&body=https://hackysecurity.com/blog/blog-post-3.html" class="share-email" title="Share via Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                    <div class="corporate-cta">For more information, <a href="../services.html#get-in-touch">contact me</a>.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../index.html">Home</a>
+                    <a href="../services.html">Services</a>
+                    <a href="../contact.html">About Me</a>
+                    <a href="blog.html" class="active">Blog</a>
+                </div>
+                <div class="footer-logo">
+                    <h3 class="logo-text">
+                        <span class="logo-letter h">H</span>
+                        <span class="logo-icon">
+                            <i class="fas fa-user-secret"></i>
+                        </span>
+                        <span class="logo-letter c">C</span>
+                        <span class="logo-letter k">K</span>
+                        <span class="logo-letter y">Y</span>
+                    </h3>
+                    <p>Precision in Offensive Security</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Hacky Security. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../script.js"></script>
+</body>
+</html>
