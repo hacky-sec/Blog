@@ -775,11 +775,18 @@ body {
     font-size: 1.2rem;
 }
 
+.certifications-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .cert-logos {
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
     justify-content: flex-start;
+    width: 100%;
 }
 
 .cert-logos a {
