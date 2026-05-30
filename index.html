@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irfan Can Bogac — Penetration Tester</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0B1D3A;
+  --navy-deep:#060F1F;
+  --navy-mid:#122444;
+  --blue:#1A56DB;
+  --blue-lt:rgba(26,86,219,0.08);
+  --blue-mid:rgba(26,86,219,0.14);
+  --blue-glow:rgba(26,86,219,0.3);
+  --white:#FFFFFF;
+  --off-white:#F7F8FB;
+  --gray:#8B9BB4;
+  --line:rgba(11,29,58,0.09);
+  --line-blue:rgba(26,86,219,0.18);
+  --syne:'Rajdhani',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Outfit',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--white);color:var(--navy);line-height:1.7;overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--off-white);}
+::-webkit-scrollbar-thumb{background:var(--blue);}
+::selection{background:rgba(26,86,219,0.18);color:var(--navy);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.8rem 6vw;transition:all 0.4s ease;border-bottom:1px solid transparent;background:transparent;}
+nav.scrolled{background:rgba(255,255,255,0.85);padding:1.1rem 6vw;border-bottom-color:var(--line);backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(0,0,0,0.03);}
+.nav-toggle{display:none;appearance:none;background:var(--blue-lt);border:1px solid var(--line-blue);color:var(--navy);padding:0.6rem 0.9rem;border-radius:4px;font-family:var(--mono);font-size:0.85rem;cursor:pointer;transition:all 0.25s;}
+.nav-toggle:hover{background:var(--blue);color:var(--white);}
+.scroll-progress{position:absolute;bottom:0;left:0;height:2px;background:var(--blue);width:0%;transition:width 0.1s ease;box-shadow:0 0 8px var(--blue);}
+.nav-logo{font-family:var(--mono);font-size:1rem;font-weight:500;color:var(--navy);text-decoration:none;letter-spacing:0.12em;display:flex;align-items:center;gap:0.5rem;}
+.nav-logo span{color:var(--blue);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+.nav-links a{font-family:var(--mono);font-size:0.72rem;color:var(--navy);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--blue);transform:scaleX(0);transition:transform 0.25s;}
+.nav-links a:hover{color:var(--blue);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-cta{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);background:var(--blue);padding:0.55rem 1.4rem;border:1px solid var(--blue);text-decoration:none;transition:all 0.25s;}
+.nav-cta:hover{background:transparent;color:var(--blue);box-shadow:0 0 15px rgba(26,86,219,0.2);}
+
+/* MOBILE NAV OPEN STATE */
+nav.nav-open{background:var(--white);border-bottom-color:var(--line);}
+@media(max-width:900px){
+  nav.nav-open .nav-links{
+    display:flex!important;flex-direction:column;
+    position:absolute;top:100%;left:0;right:0;
+    background:var(--white);padding:1.5rem 6vw 2rem;
+    gap:1.25rem;border-bottom:1px solid var(--line);
+    box-shadow:0 8px 30px rgba(0,0,0,0.08);
+    animation:fadeUp 0.25s ease both;z-index:199;
+  }
+  nav.nav-open .nav-links li a{font-size:0.85rem;padding:0.5rem 0;display:block;border-bottom:1px solid var(--line);}
+  nav.nav-open .nav-cta{display:inline-flex!important;margin:0 6vw 1.5rem;width:calc(100% - 12vw);text-align:center;justify-content:center;}
+}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 6vw 5rem;position:relative;overflow:hidden;background:var(--white);}
+
+/* animated mesh grid */
+.hero-grid-bg{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);opacity:0.5;animation:gridShift 20s linear infinite;}
+
+/* glowing orbs */
+.hero-accent{position:absolute;right:-10vw;top:10%;width:55vw;height:55vw;max-width:700px;max-height:700px;border-radius:50%;background:radial-gradient(circle,rgba(26,86,219,0.09) 0%,rgba(26,86,219,0.04) 40%,transparent 70%);pointer-events:none;animation:orbFloat 8s ease-in-out infinite;}
+.hero-accent2{position:absolute;left:-5vw;bottom:5%;width:30vw;height:30vw;max-width:400px;max-height:400px;border-radius:50%;background:radial-gradient(circle,rgba(26,86,219,0.05) 0%,transparent 65%);pointer-events:none;animation:orbFloat 11s ease-in-out infinite reverse;}
+
+/* floating particles */
+.hero-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.hero-particles span{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--blue);opacity:0;animation:particleFade var(--d,6s) var(--delay,0s) ease-in-out infinite;}
+
+.hero-eyebrow{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:2rem;display:flex;align-items:center;gap:1rem;animation:fadeUp 0.7s ease both;}
+.hero-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--blue);}
+
+.hero h1{font-family:var(--syne);font-size:clamp(3rem,7vw,5.5rem);font-weight:800;line-height:1.0;color:var(--navy);margin-bottom:2rem;animation:fadeUp 0.7s 0.1s ease both;max-width:800px;}
+.hero h1 .accent{color:var(--blue);position:relative;display:inline-block;}
+.hero h1 .accent::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),rgba(26,86,219,0.2));border-radius:1px;}
+.hero h1 .thin{font-weight:400;color:rgba(11,29,58,0.65);}
+
+.hero-sub{font-size:1rem;color:var(--gray);max-width:560px;line-height:1.85;margin-bottom:3rem;animation:fadeUp 0.7s 0.2s ease both;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp 0.7s 0.3s ease both;margin-bottom:5rem;}
+.btn{font-family:var(--mono);font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;padding:0.85rem 2rem;transition:all 0.3s ease;display:inline-block;position:relative;overflow:hidden;}
+.btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.12);opacity:0;transition:opacity 0.3s;}
+.btn:hover::before{opacity:1;}
+.btn-primary{background:var(--blue);color:var(--white);border:1px solid var(--blue);}
+.btn-primary:hover{background:#1245b8;border-color:#1245b8;transform:translateY(-2px);box-shadow:0 8px 30px var(--blue-glow);}
+.btn-outline{background:transparent;color:var(--navy);border:1px solid rgba(11,29,58,0.25);}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);background:var(--blue-lt);}
+
+/* marquee terminal strip */
+.terminal-strip{font-family:var(--mono);font-size:0.78rem;color:var(--blue);display:flex;align-items:center;overflow:hidden;border-top:1px solid var(--line);padding-top:2rem;animation:fadeUp 0.7s 0.4s ease both;position:relative;}
+.terminal-strip::after{content:'';position:absolute;right:0;top:2rem;bottom:0;width:80px;background:linear-gradient(90deg,transparent,var(--white));pointer-events:none;}
+.terminal-marquee{display:flex;align-items:center;gap:0;animation:marquee 22s linear infinite;white-space:nowrap;}
+.terminal-item{padding:0 1.5rem 0 0;margin-right:1.5rem;border-right:1px solid rgba(26,86,219,0.25);white-space:nowrap;flex-shrink:0;}
+.terminal-item:last-child{border-right:none;}
+.terminal-item .dollar{color:var(--blue);margin-right:0.4rem;}
+.cursor{display:inline-block;width:7px;height:14px;background:var(--blue);vertical-align:middle;animation:blink 1s step-end infinite;}
+
+/* STATS */
+.stats-band{background:linear-gradient(135deg,#07142b 0%,#0d1e3f 50%,#091528 100%);padding:2.8rem 6vw;display:flex;align-items:center;gap:0;position:relative;overflow:hidden;}
+.stats-band::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(26,86,219,0.1) 0%,transparent 50%),radial-gradient(circle at 80% 50%,rgba(26,86,219,0.07) 0%,transparent 50%);pointer-events:none;}
+.stats-band::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,86,219,0.5),transparent);}
+.frameworks-label{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.25);white-space:nowrap;padding-right:3rem;border-right:1px solid rgba(255,255,255,0.08);margin-right:3rem;flex-shrink:0;}
+.frameworks-list{display:flex;align-items:center;gap:0;flex:1;flex-wrap:wrap;}
+.fw-item{display:flex;align-items:center;gap:0;flex:1;min-width:0;justify-content:center;padding:0.6rem 1.5rem;border-right:1px solid rgba(255,255,255,0.06);transition:background 0.3s;position:relative;}
+.fw-item:last-child{border-right:none;}
+.fw-item:hover{background:rgba(26,86,219,0.08);}
+.fw-item:hover .fw-name{color:var(--white);}
+.fw-item:hover .fw-name::after{width:100%;}
+.fw-name{font-family:var(--syne);font-size:clamp(0.85rem,1.4vw,1.1rem);font-weight:700;letter-spacing:0.04em;color:rgba(255,255,255,0.55);transition:color 0.3s;position:relative;}
+.fw-name::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--blue);transition:width 0.3s;}
+
+/* SECTION DEFAULTS */
+section{padding:7rem 6vw;}
+.sec-label{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--blue);}
+.sec-title{font-family:var(--syne);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;color:var(--navy);line-height:1.1;margin-bottom:1rem;}
+.sec-title em{font-style:italic;font-weight:400;color:var(--blue);}
+.sec-sub{font-size:0.95rem;color:var(--gray);max-width:500px;line-height:1.85;margin-bottom:4rem;}
+
+/* ABOUT */
+#about{background:var(--off-white);}
+.about-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:6rem;align-items:center;}
+.about-img-wrap{position:relative;}
+.about-img-frame{position:relative;overflow:hidden;background:#0d1117;box-shadow:0 30px 80px rgba(11,29,58,0.18);}
+.about-img-frame img{width:100%;height:auto;display:block;filter:none;transition:transform 0.6s ease;}
+.about-img-wrap:hover .about-img-frame img{transform:scale(1.02);}
+.about-img-wrap:hover .about-img-frame img{transform:scale(1.04);filter:grayscale(0%);}
+.about-img-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(11,29,58,0.4) 0%,transparent 50%);z-index:1;pointer-events:none;}
+.about-corner{position:absolute;bottom:-1.5rem;right:-1.5rem;width:120px;height:120px;border:1px solid var(--blue);z-index:-1;animation:cornerPulse 3s ease-in-out infinite;}
+.about-corner2{position:absolute;top:-1.5rem;left:-1.5rem;width:80px;height:80px;border:1px solid rgba(26,86,219,0.25);z-index:-1;}
+.about-tag{position:absolute;bottom:1.5rem;left:1.5rem;z-index:2;font-family:var(--mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--white);background:rgba(11,29,58,0.88);padding:0.5rem 0.85rem;border-left:2px solid var(--blue);backdrop-filter:blur(12px);}
+.about-text p{font-size:0.95rem;color:var(--gray);line-height:1.65;margin-bottom:0.55rem;}
+.about-text p strong{color:var(--navy);font-weight:600;}
+
+#skills{background:var(--off-white);}
+.skills-outer{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.skill-block{background:var(--white);border:1px solid rgba(11,29,58,0.08);border-top:2px solid var(--blue);padding:2rem 1.75rem 1.75rem;position:relative;transition:border-color 0.3s,box-shadow 0.35s,transform 0.3s;box-shadow:0 1px 4px rgba(11,29,58,0.05);}
+.skill-block:hover{border-color:rgba(26,86,219,0.3);border-top-color:var(--blue);box-shadow:0 10px 36px rgba(26,86,219,0.1),0 2px 8px rgba(11,29,58,0.06);transform:translateY(-3px);}
+.skill-block::after{content:'';position:absolute;inset:0;background:linear-gradient(155deg,rgba(26,86,219,0.03) 0%,transparent 55%);opacity:0;transition:opacity 0.35s;pointer-events:none;}
+.skill-block:hover::after{opacity:1;}
+.skill-block-title{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:1.5rem;padding-bottom:0.85rem;border-bottom:1px solid rgba(11,29,58,0.07);display:flex;align-items:center;gap:0.65rem;font-weight:500;}
+.skill-block-title::before{content:'';width:5px;height:5px;background:var(--blue);border-radius:50%;flex-shrink:0;box-shadow:0 0 0 3px rgba(26,86,219,0.15);}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.45rem;}
+.skill-tag{font-family:var(--mono);font-size:0.63rem;color:rgba(11,29,58,0.65);background:rgba(11,29,58,0.03);border:1px solid rgba(11,29,58,0.09);padding:0.3rem 0.7rem;transition:all 0.2s ease;cursor:default;}
+.skill-tag:hover{border-color:var(--blue);color:var(--blue);background:rgba(26,86,219,0.06);box-shadow:0 2px 10px rgba(26,86,219,0.1);transform:translateY(-1px);}
+.skill-level-bar{height:2px;background:rgba(11,29,58,0.06);margin-top:1.5rem;overflow:hidden;border-radius:1px;}
+.skill-level-fill{height:100%;background:linear-gradient(90deg,var(--blue),rgba(26,86,219,0.35));transform:scaleX(0);transform-origin:left;transition:transform 1.4s cubic-bezier(0.25,0.46,0.45,0.94);}
+.skill-block.visible .skill-level-fill{transform:scaleX(1);}
+
+/* CERTS */
+#certs{background:var(--navy-deep);position:relative;overflow:hidden;}
+/* CERTS */
+#certs .sec-title{color:var(--white);}
+#certs .sec-sub{color:rgba(255,255,255,0.4);}
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:rgba(255,255,255,0.06);}
+.cert-card{border:none;padding:2.25rem;background:rgba(11,29,58,0.6);position:relative;overflow:hidden;transition:transform 0.35s,background 0.35s,box-shadow 0.35s;cursor:pointer;}
+.cert-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),rgba(26,86,219,0.3));transform:scaleX(0);transform-origin:left;transition:transform 0.4s;}
+.cert-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(26,86,219,0.08) 0%,transparent 60%);opacity:0;transition:opacity 0.4s;}
+.cert-card:hover{transform:translateY(-5px);background:rgba(18,36,68,0.95);box-shadow:0 20px 50px rgba(0,0,0,0.5),0 0 30px rgba(26,86,219,0.1);}
+.cert-card:hover::before{transform:scaleX(1);}
+.cert-card:hover::after{opacity:1;}
+.cert-badge{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);background:rgba(26,86,219,0.12);border:1px solid rgba(26,86,219,0.35);padding:0.28rem 0.65rem;display:inline-block;margin-bottom:1rem;transition:background 0.3s;}
+.cert-card:hover .cert-badge{background:rgba(26,86,219,0.2);}
+.cert-name{font-family:var(--syne);font-size:1.05rem;font-weight:600;color:var(--white);margin-bottom:0.3rem;line-height:1.3;}
+.cert-issuer{font-family:var(--mono);font-size:0.7rem;color:rgba(255,255,255,0.3);margin-bottom:0.75rem;}
+.cert-desc{font-size:0.82rem;color:rgba(255,255,255,0.35);line-height:1.7;}
+
+/* HTB */
+#htb{background:var(--navy-deep);}
+#htb .sec-title{color:var(--white);}
+#htb .sec-title em{color:var(--blue);}
+.htb-wrap{border:1px solid rgba(255,255,255,0.07);background:rgba(8,16,35,0.95);padding:3.5rem;position:relative;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,0.3);}
+.htb-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,86,219,0.4),transparent);}
+.htb-wrap::after{content:'HTB';position:absolute;right:2rem;bottom:1rem;font-family:var(--syne);font-size:6rem;font-weight:800;color:rgba(255,255,255,0.04);line-height:1;pointer-events:none;}
+.htb-header{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.07);}
+.htb-dot{width:10px;height:10px;border-radius:50%;background:var(--blue);box-shadow:0 0 16px rgba(26,86,219,0.7);animation:pulse 2s ease infinite;}
+.htb-title{font-family:var(--mono);font-size:0.8rem;color:var(--white);letter-spacing:0.08em;font-weight:500;}
+.htb-title span{color:rgba(255,255,255,0.4);}
+
+/* ACCORDION */
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.4rem;}
+.mod-row{display:flex;align-items:center;gap:0.5rem;padding:0.6rem 0.8rem;background:rgba(11,29,58,0.03);border:1px solid rgba(26,86,219,0.12);transition:all 0.2s;}
+.mod-row:hover{background:rgba(26,86,219,0.07);border-color:rgba(26,86,219,0.3);}
+.mod-name{font-size:0.75rem;color:var(--navy);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* Dark context overrides — inside dark accordion */
+[style*="rgba(6,15,31"] .mod-row{background:rgba(255,255,255,0.03);border-color:rgba(26,86,219,0.15);}
+[style*="rgba(6,15,31"] .mod-row:hover{background:rgba(26,86,219,0.1);border-color:rgba(26,86,219,0.4);}
+[style*="rgba(6,15,31"] .mod-name{color:rgba(255,255,255,0.82);}
+.mod-tag{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.14rem 0.4rem;flex-shrink:0;}
+.mod-tag.offensive{background:rgba(26,86,219,0.12);color:#5a9fff;border:1px solid rgba(26,86,219,0.25);}
+.mod-tag.general{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.1);}
+.mod-tag.defense{background:rgba(16,185,129,0.1);color:rgba(52,211,153,0.9);border:1px solid rgba(16,185,129,0.25);}
+.mod-done{font-family:var(--mono);font-size:0.65rem;color:#22c55e;flex-shrink:0;}
+
+/* METHODOLOGY */
+#methodology{background:linear-gradient(135deg,#060f1f 0%,#0d1e3f 100%);}
+#methodology .sec-title{color:var(--white);}
+#methodology .sec-sub{color:rgba(255,255,255,0.4);}
+.method-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.05);position:relative;}
+.method-grid::after{content:'';position:absolute;top:50%;left:5%;right:5%;height:1px;background:linear-gradient(90deg,transparent,rgba(26,86,219,0.15),rgba(26,86,219,0.15),transparent);pointer-events:none;}
+.method-step{padding:2.8rem 2rem;background:rgba(6,15,31,0.8);position:relative;overflow:hidden;transition:all 0.35s cubic-bezier(0.23,1,0.32,1);}
+.method-step:hover{background:rgba(14,26,55,0.95);box-shadow:0 0 40px rgba(26,86,219,0.12);transform:translateY(-4px);}
+.method-step::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--blue);transform:scaleY(0);transform-origin:bottom;transition:transform 0.4s cubic-bezier(0.23,1,0.32,1);}
+.method-step:hover::before{transform:scaleY(1);}
+.method-num{font-family:var(--mono);font-size:3rem;font-weight:300;color:rgba(255,255,255,0.07);line-height:1;position:absolute;top:1rem;right:1.25rem;transition:color 0.35s;}
+.method-step:hover .method-num{color:rgba(26,86,219,0.25);}
+.method-icon{width:40px;height:40px;border:1px solid rgba(26,86,219,0.4);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;font-size:1rem;color:rgba(255,255,255,0.85);transition:border-color 0.3s,box-shadow 0.3s;}
+.method-step:hover .method-icon{border-color:var(--blue);box-shadow:0 0 16px rgba(26,86,219,0.3);}
+.method-title{font-family:var(--syne);font-size:1rem;font-weight:600;color:var(--white);margin-bottom:0.5rem;}
+.method-desc{font-size:0.83rem;color:rgba(255,255,255,0.55);line-height:1.8;}
+
+/* WRITING */
+#writing{background:var(--white);overflow:hidden;padding-bottom:5rem;}
+.carousel-outer{position:relative;overflow:hidden;}
+.carousel-track{display:flex;gap:0;transition:transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform;}
+.wc{text-decoration:none;display:flex;flex-direction:column;flex-shrink:0;width:calc(100%/3);padding:2.75rem 2.5rem 2.25rem;border-right:1px solid var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line);transition:all 0.3s;position:relative;overflow:hidden;background:var(--white);}
+.wc:first-child{border-left:1px solid var(--line);}
+.wc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform 0.4s;}
+.wc:hover{background:rgba(26,86,219,0.03);}
+.wc:hover::after{transform:scaleX(1);}
+.wc-num{font-family:var(--mono);font-size:0.6rem;color:rgba(26,86,219,0.5);letter-spacing:0.15em;margin-bottom:1.5rem;}
+.wc-cat{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;}
+.wc-cat::before{content:'';display:block;width:14px;height:1px;background:var(--blue);}
+.wc-title{font-family:var(--syne);font-size:1.05rem;font-weight:600;color:var(--navy);line-height:1.35;margin-bottom:1rem;transition:color 0.2s;}
+.wc:hover .wc-title{color:var(--blue);}
+.wc-body{font-size:0.8rem;color:var(--gray);line-height:1.72;flex:1;}
+.wc-foot{margin-top:1.75rem;font-family:var(--mono);font-size:0.62rem;color:rgba(11,29,58,0.4);letter-spacing:0.08em;transition:color 0.25s;}
+.wc:hover .wc-foot{color:var(--blue);}
+.carousel-controls{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:2rem;}
+.carousel-btn{font-family:var(--mono);font-size:0.85rem;color:var(--navy);background:none;border:1px solid rgba(11,29,58,0.15);padding:0.5rem 1.1rem;cursor:pointer;transition:all 0.25s;line-height:1;}
+.carousel-btn:hover{color:var(--blue);border-color:var(--blue);background:var(--blue-lt);}
+.carousel-dots{display:flex;gap:0.5rem;align-items:center;}
+.cdot{width:5px;height:5px;border-radius:50%;background:rgba(11,29,58,0.12);transition:background 0.25s,width 0.25s;cursor:pointer;}
+.cdot.active{background:var(--blue);width:22px;border-radius:3px;}
+
+/* CONTACT */
+#contact{background:var(--off-white);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
+.contact-info{display:flex;flex-direction:column;gap:0;}
+.contact-row{display:flex;align-items:flex-start;gap:1rem;padding:1.25rem 0;border-bottom:1px solid var(--line);transition:padding-left 0.25s;}
+.contact-row:hover{padding-left:8px;}
+.contact-row-icon{font-family:var(--mono);font-size:0.65rem;color:var(--blue);letter-spacing:0.05em;min-width:80px;padding-top:0.1rem;}
+.contact-row-val{font-size:0.9rem;color:var(--navy);}
+.contact-row-val a{color:var(--blue);text-decoration:none;}
+.contact-row-val a:hover{text-decoration:underline;}
+
+.platform-link{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.25rem;
+  border:1px solid rgba(11,29,58,0.09);
+  background:var(--white);
+  text-decoration:none;
+  transition:all 0.25s ease;
+  position:relative;overflow:hidden;
+}
+.platform-link::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:var(--blue);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform 0.3s;
+}
+.platform-link:hover{border-color:rgba(26,86,219,0.25);box-shadow:0 4px 20px rgba(26,86,219,0.08);transform:translateX(4px);}
+.platform-link:hover::before{transform:scaleY(1);}
+.platform-cta{border-color:rgba(26,86,219,0.2);background:rgba(26,86,219,0.02);}
+.platform-cta:hover{background:rgba(26,86,219,0.05);}
+.pl-left{display:flex;align-items:center;gap:0.85rem;}
+.pl-icon{
+  width:36px;height:36px;flex-shrink:0;
+  border:1px solid rgba(11,29,58,0.08);
+  display:flex;align-items:center;justify-content:center;
+}
+.pl-name{font-family:var(--syne);font-size:0.9rem;font-weight:600;color:var(--navy);margin-bottom:0.15rem;}
+.pl-sub{font-family:var(--mono);font-size:0.63rem;color:var(--gray);letter-spacing:0.03em;}
+.pl-arrow{font-size:0.9rem;color:rgba(11,29,58,0.25);transition:color 0.2s,transform 0.2s;flex-shrink:0;}
+.platform-link:hover .pl-arrow{color:var(--blue);transform:translate(2px,-2px);}
+
+/* FOOTER */
+footer{background:linear-gradient(0deg,#04090f 0%,var(--navy-deep) 100%);padding:2.5rem 6vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid rgba(255,255,255,0.05);position:relative;overflow:hidden;}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(26,86,219,0.3),transparent);}
+.footer-logo{font-family:var(--mono);font-size:0.85rem;color:rgba(255,255,255,0.22);letter-spacing:0.1em;}
+.footer-logo span{color:var(--blue);}
+.footer-copy{font-family:var(--mono);font-size:0.65rem;color:rgba(255,255,255,0.14);letter-spacing:0.08em;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(26,86,219,0.5);}50%{box-shadow:0 0 0 10px rgba(26,86,219,0);}}
+@keyframes scan{0%{top:-100px;}100%{top:100%;}}
+@keyframes typewriter{from{width:0;}to{width:100%;}}
+@keyframes glowPulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
+@keyframes floatUp{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+@keyframes countUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes gridShift{0%{background-position:0 0;}100%{background-position:60px 60px;}}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(-20px,15px) scale(1.05);}66%{transform:translate(15px,-10px) scale(0.97);}}
+@keyframes particleFade{0%,100%{opacity:0;transform:translateY(0);}50%{opacity:0.6;transform:translateY(-30px);}}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@keyframes cornerPulse{0%,100%{opacity:0.5;box-shadow:none;}50%{opacity:1;box-shadow:0 0 20px rgba(26,86,219,0.2);}}
+
+/* ENHANCED HERO TYPING */
+.typing-line{overflow:hidden;white-space:nowrap;border-right:2px solid var(--blue);animation:typewriter 2.5s steps(40) 0.8s both, blink 0.75s step-end infinite 3.3s;}
+
+/* ENHANCED SKILL TAGS - handled above */
+
+/* BACK TO TOP BUTTON */
+.back-to-top{position:fixed;bottom:2rem;right:2rem;width:42px;height:42px;background:var(--blue);color:var(--white);border:none;cursor:pointer;font-family:var(--mono);font-size:1rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:all 0.3s ease;z-index:100;}
+.back-to-top.visible{opacity:1;transform:translateY(0);}
+.back-to-top:hover{background:var(--navy);box-shadow:0 4px 20px rgba(26,86,219,0.4);}
+
+/* NOISE TEXTURE OVERLAY */
+.hero::before{content:'';position:absolute;inset:0;opacity:0.025;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:128px;}
+
+/* ACTIVE NAV LINK */
+.nav-links a.active{color:var(--blue);}
+.nav-links a.active::after{transform:scaleX(1);}
+
+/* FOOTER SOCIAL LINKS */
+.footer-socials{display:flex;gap:1rem;align-items:center;}
+.footer-social-link{font-family:var(--mono);font-size:0.65rem;color:rgba(255,255,255,0.25);letter-spacing:0.08em;text-decoration:none;transition:color 0.2s;}
+.footer-social-link:hover{color:var(--blue);}
+
+/* GLITCH EFFECT ON LOGO HOVER */
+.nav-logo:hover span{animation:glitchColor 0.3s ease;}
+@keyframes glitchColor{0%,100%{color:var(--blue);}25%{color:#00fff0;}50%{color:var(--blue);}75%{color:#ff3c00;opacity:0.8;}}
+
+/* SECTION TRANSITION DIVIDERS */
+.section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--line-blue),transparent);margin:0;}
+
+/* MOBILE NAV IMPROVEMENTS */
+@media(max-width:900px){
+  .nav-toggle{display:block;}
+}
+
+/* TOOLTIP ON CERT BADGE */
+.cert-badge{position:relative;cursor:help;}
+
+/* ENHANCED SCROLL PROGRESS */
+.scroll-progress{box-shadow:0 0 10px rgba(26,86,219,0.6);}
+
+/* ── MARBLE TEXTURE (shared) ── */
+.marble-tex{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.018;}
+.marble-veins{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+
+/* ── RESPONSIVE ── */
+
+/* Tablet geniş: 1200px */
+@media(max-width:1200px){
+  .skills-outer{grid-template-columns:repeat(2,1fr);}
+  .method-grid{grid-template-columns:repeat(2,1fr);}
+  .wc{width:50%;}
+  .hero h1{font-size:clamp(2.8rem,6vw,4.5rem);}
+  .about-grid{gap:4rem;}
+}
+
+/* Tablet: 900px */
+@media(max-width:900px){
+  /* Nav */
+  nav{padding:0 5vw;height:64px;}
+  .nav-links,.nav-cta{display:none;}
+  .nav-toggle{display:block;}
+
+  /* Sections */
+  section{padding:5rem 5vw;}
+  .hero{padding:7rem 5vw 4rem;}
+  .sec-title{font-size:clamp(1.8rem,4vw,2.4rem);}
+  .sec-sub{max-width:100%;}
+
+  /* Hero */
+  .hero h1{font-size:clamp(2.4rem,6vw,3.6rem);}
+  .hero-bot{grid-template-columns:1fr;gap:1.25rem;}
+  .hero-desc{grid-column:1;}
+  .terminal-strip{overflow:hidden;}
+  .hero-stats{gap:3rem;}
+
+  /* Frameworks */
+  .stats-band{flex-wrap:wrap;padding:1.8rem 5vw;gap:0;}
+  .frameworks-label{width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:0.85rem;margin-bottom:0.85rem;margin-right:0;}
+  .fw-item{min-width:33%;padding:0.6rem 0.75rem;}
+
+  /* About */
+  .about-grid{grid-template-columns:1fr;gap:2.5rem;}
+  .about-img-wrap{max-width:360px;margin:0 auto;}
+
+  /* Skills */
+  .skills-outer{grid-template-columns:repeat(2,1fr);}
+
+  /* Certs */
+  .certs-grid{grid-template-columns:repeat(2,1fr);}
+
+  /* HTB */
+  .htb-wrap{padding:2rem;}
+
+  /* Method */
+  .method-grid{grid-template-columns:repeat(2,1fr);}
+
+  /* Writing */
+  .wc{width:75vw;}
+
+  /* Contact */
+  .contact-grid{grid-template-columns:1fr;gap:3rem;}
+
+  /* Footer */
+  footer{flex-direction:column;text-align:center;gap:0.75rem;padding:2rem 5vw;}
+}
+
+/* Mobil: 600px */
+@media(max-width:600px){
+  /* Nav */
+  nav{padding:0 5vw;height:60px;}
+
+  /* Hero */
+  .hero{padding:5rem 5vw 3rem;}
+  .hero h1{font-size:2rem;line-height:1.06;}
+  .hero-eyebrow{font-size:0.65rem;margin-bottom:1.25rem;}
+  .hero-sub{font-size:0.9rem;}
+  .hero-actions{flex-direction:column;gap:0.65rem;}
+  .hero-actions .btn{text-align:center;display:block;}
+  .hero-bot{gap:0.75rem;}
+  .hero-role{font-size:0.9rem;}
+  .hero-role strong{font-size:1rem;}
+  .hero-stats{flex-direction:column;gap:1.25rem;padding-top:1.5rem;margin-top:2rem;}
+  .hstat{padding:1rem 0;border-right:none!important;border-bottom:1px solid var(--line);}
+  .hstat:last-child{border-bottom:none;}
+
+  /* Terminal */
+  .terminal-strip{padding-top:1.25rem;}
+
+  /* Sections */
+  section{padding:3.5rem 5vw;}
+  .sec-title{font-size:1.6rem;}
+  .sec-sub{font-size:0.88rem;margin-bottom:2rem;}
+  .sec-label{font-size:0.62rem;}
+
+  /* Frameworks */
+  .stats-band{padding:1.25rem 5vw;}
+  .fw-item{min-width:50%;}
+  .fw-name{font-size:0.8rem;}
+
+  /* About */
+  .about-grid{gap:2rem;}
+  .about-img-wrap{max-width:100%;}
+  .about-corner,.about-corner2{display:none;}
+  .about-text p{font-size:0.88rem;}
+
+  /* Skills */
+  .skills-outer{grid-template-columns:1fr;}
+  .skill-block{padding:1.5rem 1.25rem;}
+  .skill-tag{font-size:0.6rem;}
+
+  /* Certs */
+  .certs-grid{grid-template-columns:1fr;}
+  .cert-card{padding:1.5rem 1.25rem;}
+
+  /* HTB */
+  .htb-wrap{padding:1.25rem 1rem;}
+  .mod-grid{grid-template-columns:1fr;}
+  #cpts-header,#crtp-header{flex-direction:column;align-items:flex-start;gap:0.5rem;}
+  #cpts-header>div:last-child,#crtp-header>div:last-child{flex-direction:row;width:100%;justify-content:space-between;}
+  .mod-name{font-size:0.7rem;}
+  .mod-tag{display:none;}
+
+  /* Method */
+  .method-grid{grid-template-columns:1fr;}
+  .method-step{padding:1.75rem 1.25rem;}
+  .method-num{font-size:2rem;}
+
+  /* Writing carousel */
+  .wc{width:86vw;padding:1.75rem 1.25rem;}
+  .carousel-controls{gap:0.6rem;}
+  .wc-title{font-size:0.95rem;}
+  .wc-body{font-size:0.78rem;}
+
+  /* Contact */
+  .contact-grid{gap:2rem;}
+  .contact-row{padding:1rem 0;}
+  .contact-row-icon{min-width:60px;font-size:0.6rem;}
+  .platform-link{padding:0.85rem 1rem;}
+  .pl-icon{width:30px;height:30px;}
+  .pl-name{font-size:0.82rem;}
+  .pl-sub{font-size:0.6rem;}
+
+  /* Footer */
+  footer{padding:1.5rem 5vw;gap:0.5rem;}
+  .footer-logo{font-size:0.75rem;}
+  .footer-copy{font-size:0.65rem;}
+
+  /* Back to top */
+  .back-to-top{bottom:1rem;right:1rem;width:34px;height:34px;font-size:0.85rem;}
+}
+
+/* Küçük mobil: 380px */
+@media(max-width:380px){
+  .hero h1{font-size:1.75rem;}
+  .fw-item{min-width:50%;}
+  .sec-title{font-size:1.45rem;}
+  .stats-band{padding:1rem 4vw;}
+  section{padding:3rem 4vw;}
+  .hero{padding:4.5rem 4vw 2.5rem;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="#"><span>//</span> ICB</a>
+  <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-label="Toggle Menu">MENU</button>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#htb">HTB</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#contact">Find Me</a></li>
+  </ul>
+  <a href="https://www.linkedin.com/in/hackyman/" target="_blank" class="nav-cta">LinkedIn ↗</a>
+  <div class="scroll-progress" id="scroll-progress"></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-accent2"></div>
+  <div class="hero-particles">
+    <span style="left:15%;top:20%;--d:7s;--delay:0s;"></span>
+    <span style="left:30%;top:60%;--d:9s;--delay:1s;"></span>
+    <span style="left:55%;top:30%;--d:6s;--delay:2s;"></span>
+    <span style="left:70%;top:75%;--d:8s;--delay:0.5s;"></span>
+    <span style="left:85%;top:40%;--d:11s;--delay:3s;"></span>
+    <span style="left:45%;top:85%;--d:7s;--delay:1.5s;"></span>
+    <span style="left:8%;top:50%;--d:10s;--delay:2.5s;"></span>
+    <span style="left:92%;top:15%;--d:8s;--delay:4s;"></span>
+  </div>
+
+  <div class="hero-eyebrow">Precision in Offensive Security</div>
+
+  <h1>
+    Offensive<br>
+    <span class="thin">Security</span> <span class="accent">Professional.</span>
+  </h1>
+
+  <p class="hero-sub" id="hero-sub">
+    Cyber Security Engineer with 3+ years of hands-on experience in enterprise penetration testing.
+    Specializing in external &amp; internal network assessments, Active Directory exploitation,
+    and full-scope offensive security engagements.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#skills" class="btn btn-primary">View Skills</a>
+    <a href="#certs" class="btn btn-outline">Certifications</a>
+  </div>
+
+  <div class="terminal-strip">
+    <div class="terminal-marquee">
+      <div class="terminal-item"><span class="dollar">$</span> Active Directory</div>
+      <div class="terminal-item"><span class="dollar">$</span> Network Pentest</div>
+      <div class="terminal-item"><span class="dollar">$</span> Web App Testing</div>
+      <div class="terminal-item"><span class="dollar">$</span> Social Engineering</div>
+      <div class="terminal-item"><span class="dollar">$</span> Wireless Testing</div>
+      <div class="terminal-item"><span class="dollar">$</span> Red Team Ops</div>
+      <div class="terminal-item"><span class="dollar">$</span> Active Directory</div>
+      <div class="terminal-item"><span class="dollar">$</span> Network Pentest</div>
+      <div class="terminal-item"><span class="dollar">$</span> Web App Testing</div>
+      <div class="terminal-item"><span class="dollar">$</span> Social Engineering</div>
+      <div class="terminal-item"><span class="dollar">$</span> Wireless Testing</div>
+      <div class="terminal-item"><span class="dollar">$</span> Red Team Ops<span class="cursor"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORKS -->
+<div class="stats-band" style="position:relative;overflow:hidden;">
+  <div class="frameworks-label">// Frameworks</div>
+  <div class="frameworks-list">
+    <div class="fw-item"><span class="fw-name">OWASP</span></div>
+    <div class="fw-item"><span class="fw-name">NIST</span></div>
+    <div class="fw-item"><span class="fw-name">CREST</span></div>
+    <div class="fw-item"><span class="fw-name">PTES</span></div>
+    <div class="fw-item"><span class="fw-name">ISO 27001</span></div>
+    <div class="fw-item"><span class="fw-name">TS 13638</span></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-wrap reveal">
+      <div class="about-img-frame">
+        <img src="https://i.pinimg.com/736x/2a/6c/ce/2a6cceaa7f2c068a57a092a199473617.jpg" alt="Irfan Can Bogac" loading="lazy">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(11,29,58,0.35) 0%,transparent 50%);z-index:1;pointer-events:none;"></div>
+        <div class="about-tag">Pentest · Red Team · Cyber Security</div>
+      </div>
+      <div class="about-corner"></div>
+      <div class="about-corner2"></div>
+    </div>
+
+    <div class="about-text reveal">
+      <div class="sec-label">About Me</div>
+      <h2 class="sec-title">Irfan Can <em>Bogac</em></h2>
+
+      <p><strong>Penetration Tester</strong> and <strong>Offensive Security Professional</strong> with 3+ years of hands-on experience in <strong>enterprise penetration testing</strong>, specializing in <strong>external and internal network assessments</strong>, <strong>Active Directory security assessments</strong>, and attack path analysis.</p>
+      <p>Experienced in full-scope <strong>penetration testing</strong> engagements covering <strong>reconnaissance</strong>, <strong>vulnerability assessment</strong>, <strong>exploitation</strong>, <strong>privilege escalation</strong>, <strong>post-exploitation</strong>, and security validation across enterprise environments.</p>
+      <p>Skilled in <strong>web application penetration testing</strong>, <strong>mobile security testing</strong>, <strong>API security testing</strong>, and <strong>wireless security assessments</strong>, with hands-on experience in <strong>social engineering simulations</strong> and <strong>adversary emulation</strong>.</p>
+      <p>Proficient in identifying critical security weaknesses, validating security controls, and delivering <strong>remediation guidance</strong> to strengthen organizational security posture. Also contributed to <strong>Cyber Threat Intelligence (CTI)</strong> and threat analysis initiatives.</p>
+
+      <div style="display:flex;gap:2rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
+        <div>
+          <div style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.3rem;">
+            Location
+          </div>
+          <div style="font-size:0.9rem;color:var(--navy);font-weight:500;">
+            Istanbul, Turkey
+          </div>
+        </div>
+
+        <div>
+          <div style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.3rem;">
+            Languages
+          </div>
+          <div style="font-size:0.9rem;color:var(--navy);font-weight:500;">
+            Turkish · English
+          </div>
+        </div>
+
+        <div>
+          <div style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:0.3rem;">
+            Focus
+          </div>
+          <div style="font-size:0.9rem;color:var(--navy);font-weight:500;">
+            Offensive Security
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs" style="position:relative;overflow:hidden;">
+  <svg class="marble-tex" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs><filter id="mf-certs"><feTurbulence type="fractalNoise" baseFrequency="0.007 0.004" numOctaves="8" seed="22"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="gamma" amplitude="1.4" exponent="0.3" offset="-0.1"/><feFuncG type="gamma" amplitude="1.4" exponent="0.3" offset="-0.1"/><feFuncB type="gamma" amplitude="1.6" exponent="0.3" offset="0"/></feComponentTransfer></filter></defs>
+    <rect width="100%" height="100%" fill="white" filter="url(#mf-certs)"/>
+  </svg>
+  <svg class="marble-veins" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <line x1="-5%" y1="28%" x2="105%" y2="52%" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+    <line x1="-5%" y1="31%" x2="105%" y2="54%" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/>
+    <line x1="-5%" y1="62%" x2="105%" y2="78%" stroke="rgba(255,255,255,0.02)" stroke-width="0.8"/>
+    <line x1="30%" y1="-5%" x2="45%" y2="105%" stroke="rgba(255,255,255,0.018)" stroke-width="0.6"/>
+    <line x1="70%" y1="-5%" x2="82%" y2="105%" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/>
+  </svg>
+  <div class="sec-label reveal">Certifications</div>
+  <h2 class="sec-title reveal">Credentials &amp; <em>Recognition</em></h2>
+  <p class="sec-sub reveal">Industry-recognized certifications validating hands-on offensive security expertise.</p>
+
+  <div class="certs-grid">
+    <div class="cert-card reveal" style="cursor:pointer;" onclick="window.open('https://www.credential.net/4c40c587-2409-4b7d-913b-1ab9886205b6#acc.ELIsqAt1','_blank')">
+      <div class="cert-badge">CRTP</div>
+      <div class="cert-name">Certified Red Team Professional</div>
+      <div class="cert-issuer">Altered Security</div>
+      <div class="cert-desc">Advanced Active Directory-focused cert covering enterprise domain exploitation, Kerberos attacks, privilege escalation, and lateral movement.</div>
+      <div style="margin-top:1rem;font-family:var(--mono);font-size:0.65rem;color:var(--blue);letter-spacing:0.05em;font-size:0.65rem;">View Credential ↗</div>
+    </div>
+    <div class="cert-card reveal" style="cursor:pointer;" onclick="window.open('https://www.credly.com/badges/01eed07c-e17d-42e6-806e-c40d19d3577b','_blank')">
+      <div class="cert-badge">CPTS</div>
+      <div class="cert-name">Certified Penetration Testing Specialist</div>
+      <div class="cert-issuer">Hack The Box</div>
+      <div class="cert-desc">Full-scope penetration testing lifecycle covering AD exploitation, pivoting, service/web attacks, and professional reporting.</div>
+      <div style="margin-top:1rem;font-family:var(--mono);font-size:0.65rem;color:var(--blue);letter-spacing:0.05em;font-size:0.65rem;">View Credential ↗</div>
+    </div>
+    <div class="cert-card reveal" style="cursor:pointer;" onclick="window.open('https://pentestingexams.com/certificate-validation/','_blank')">
+      <div class="cert-badge">CNPen</div>
+      <div class="cert-name">Certified Network Pentester</div>
+      <div class="cert-issuer">PentestingExams — Mar 2026</div>
+      <div class="cert-desc">Practical skills in network penetration testing, vulnerability assessment, exploitation techniques, and attack surface analysis. Passed with Merit.</div>
+      <div style="margin-top:1rem;font-family:var(--mono);font-size:0.65rem;color:var(--blue);letter-spacing:0.05em;font-size:0.65rem;">View Credential ↗</div>
+    </div>
+    <div class="cert-card reveal" style="cursor:pointer;" onclick="window.open('https://www.linkedin.com/in/hackyman/overlay/Certifications/209434391/treasury/?profileId=ACoAAC0XcqUBAPnzn6Noh28KPxqafl7767Lf-0Y','_blank')">
+      <div class="cert-badge">TSE</div>
+      <div class="cert-name">Licensed Penetration Tester</div>
+      <div class="cert-issuer">Turkish Standards Institution</div>
+      <div class="cert-desc">Turkey-based penetration testing qualification focusing on internal and external network security assessments.</div>
+      <div style="margin-top:1rem;font-family:var(--mono);font-size:0.65rem;color:var(--blue);letter-spacing:0.05em;font-size:0.65rem;">View Credential ↗</div>
+    </div>
+    <div class="cert-card reveal" style="cursor:pointer;" onclick="window.open('https://eccommonstorage.blob.core.windows.net/codered/certificates/2ceaa9e8-3069-4524-9cfa-6d68256bd7fb.png','_blank')">
+      <div class="cert-badge">EHE</div>
+      <div class="cert-name">Hacking Essentials</div>
+      <div class="cert-issuer">EC-Council</div>
+      <div class="cert-desc">Foundational cybersecurity certification covering core offensive security concepts and ethical hacking principles.</div>
+      <div style="margin-top:1rem;font-family:var(--mono);font-size:0.65rem;color:var(--blue);letter-spacing:0.05em;font-size:0.65rem;">View Credential ↗</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-label reveal">Technical Skills</div>
+  <h2 class="sec-title reveal">Areas of <em>Expertise</em></h2>
+  <p class="sec-sub reveal">Hands-on skills across the full offensive security spectrum.</p>
+
+  <div class="skills-outer">
+    <div class="skill-block reveal">
+      <div class="skill-block-title">// External Network</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Attack Surface Mapping</span>
+        <span class="skill-tag">Service Enumeration</span>
+        <span class="skill-tag">Vulnerability Assessment</span>
+        <span class="skill-tag">Exploitation</span>
+        <span class="skill-tag">Asset Discovery</span>
+        <span class="skill-tag">Web Security Testing</span>
+        <span class="skill-tag">Remote Access Testing</span>
+      </div>
+      <div class="skill-level-bar"><div class="skill-level-fill" style="width:95%"></div></div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-title">// Internal Network</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Internal Reconnaissance</span>
+        <span class="skill-tag">Credential Attacks</span>
+        <span class="skill-tag">Password Reuse</span>
+        <span class="skill-tag">Privilege Escalation</span>
+        <span class="skill-tag">Lateral Movement</span>
+        <span class="skill-tag">Post-Exploitation</span>
+      </div>
+      <div class="skill-level-bar"><div class="skill-level-fill" style="width:92%"></div></div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-title">// Active Directory</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Domain Enumeration</span>
+        <span class="skill-tag">Kerberoasting</span>
+        <span class="skill-tag">AS-REP Roasting</span>
+        <span class="skill-tag">Pass-the-Hash</span>
+        <span class="skill-tag">Pass-the-Ticket</span>
+        <span class="skill-tag">ACL Abuse</span>
+        <span class="skill-tag">DCSync</span>
+        <span class="skill-tag">BloodHound</span>
+        <span class="skill-tag">ADCS Attacks</span>
+      </div>
+      <div class="skill-level-bar"><div class="skill-level-fill" style="width:90%"></div></div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-title">// Web Application</div>
+      <div class="skill-tags">
+        <span class="skill-tag">OWASP Top 10</span>
+        <span class="skill-tag">Burp Suite</span>
+        <span class="skill-tag">SQL Injection</span>
+        <span class="skill-tag">XSS</span>
+        <span class="skill-tag">Auth Testing</span>
+        <span class="skill-tag">Business Logic</span>
+        <span class="skill-tag">API Security</span>
+        <span class="skill-tag">File Upload Attacks</span>
+        <span class="skill-tag">Command Injection</span>
+      </div>
+      <div class="skill-level-bar"><div class="skill-level-fill" style="width:88%"></div></div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-title">// Mobile &amp; Wireless</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Android Testing</span>
+        <span class="skill-tag">iOS Testing</span>
+        <span class="skill-tag">Traffic Interception</span>
+        <span class="skill-tag">Insecure Data Storage</span>
+        <span class="skill-tag">Mobile API Security</span>
+        <span class="skill-tag">WPA2/WPA3</span>
+        <span class="skill-tag">Packet Analysis</span>
+        <span class="skill-tag">Client Isolation</span>
+      </div>
+      <div class="skill-level-bar"><div class="skill-level-fill" style="width:82%"></div></div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-title">// Social Engineering</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Phishing Simulation</span>
+        <span class="skill-tag">GoPhish</span>
+        <span class="skill-tag">User Awareness Testing</span>
+        <span class="skill-tag">Security Awareness Assessment</span>
+        <span class="skill-tag">Adversary Emulation</span>
+      </div>
+      <div class="skill-level-bar"><div class="skill-level-fill" style="width:78%"></div></div>
+    </div>
+    <div class="skill-block reveal">
+      <div class="skill-block-title">// Tools &amp; Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Impacket</span>
+        <span class="skill-tag">Netexec</span>
+        <span class="skill-tag">CrackMapExec</span>
+        <span class="skill-tag">Ligolo-ng</span>
+        <span class="skill-tag">Nessus</span>
+        <span class="skill-tag">Nmap</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Bash</span>
+        <span class="skill-tag">PowerShell</span>
+      </div>
+      <div class="skill-level-bar"><div class="skill-level-fill" style="width:85%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HTB TRANSCRIPT -->
+<section id="htb" style="position:relative;overflow:hidden;">
+  <!-- marble -->
+  <svg class="marble-tex" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs><filter id="mf-htb"><feTurbulence type="fractalNoise" baseFrequency="0.007 0.004" numOctaves="8" seed="11"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="gamma" amplitude="1.4" exponent="0.3" offset="-0.1"/><feFuncG type="gamma" amplitude="1.4" exponent="0.3" offset="-0.1"/><feFuncB type="gamma" amplitude="1.6" exponent="0.3" offset="0"/></feComponentTransfer></filter></defs>
+    <rect width="100%" height="100%" fill="white" filter="url(#mf-htb)"/>
+  </svg>
+  <svg class="marble-veins" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <line x1="-5%" y1="22%" x2="105%" y2="48%" stroke="rgba(255,255,255,0.022)" stroke-width="0.9"/>
+    <line x1="-5%" y1="26%" x2="105%" y2="51%" stroke="rgba(255,255,255,0.012)" stroke-width="0.5"/>
+    <line x1="-5%" y1="68%" x2="105%" y2="82%" stroke="rgba(255,255,255,0.018)" stroke-width="0.7"/>
+    <line x1="62%" y1="-5%" x2="75%" y2="105%" stroke="rgba(255,255,255,0.014)" stroke-width="0.6"/>
+  </svg>
+  <div class="sec-label reveal">Certification Path</div>
+  <h2 class="sec-title reveal">Professional <em>Transcript</em></h2>
+  <p class="sec-sub reveal">Verified training path and module completions from multiple certification platforms.</p>
+
+  <div class="htb-wrap reveal">
+    <div class="htb-header">
+      <div class="htb-dot"></div>
+      <div class="htb-title">Certification Transcript <span>— irfan can bogac</span></div>
+    </div>
+    <!-- Certification Obtained — accordion -->
+    <div style="margin-bottom:1rem;">
+      <div style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem;">// Certification Obtained</div>
+
+      <!-- CPTS Accordion -->
+      <div id="cpts-accordion" style="border:1px solid rgba(26,86,219,0.2);background:rgba(6,15,31,0.97);overflow:hidden;">
+        <div onclick="toggleAccordion('cpts-modules', 'accordion-arrow')" style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;cursor:pointer;user-select:none;gap:1rem;transition:background 0.2s;" onmouseenter="this.style.background='rgba(26,86,219,0.07)'" onmouseleave="this.style.background='transparent'" id="cpts-header">
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:var(--syne);font-size:1rem;font-weight:600;color:#ffffff;margin-bottom:0.2rem;">HTB Certified Penetration Testing Specialist</div>
+            <div style="font-family:var(--mono);font-size:0.7rem;color:rgba(255,255,255,0.35);">28 Modules · Medium · Penetration Testing</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1.25rem;flex-shrink:0;">
+            <div style="font-family:var(--mono);font-size:0.7rem;color:var(--blue);">HTB Academy</div>
+            <div id="accordion-arrow" style="font-family:var(--mono);font-size:1rem;color:var(--blue);transition:transform 0.3s;line-height:1;">▾</div>
+          </div>
+        </div>
+        <div id="cpts-modules" style="max-height:0;overflow:hidden;transition:max-height 0.5s ease;">
+          <div style="padding:1.25rem 1.5rem;border-top:1px solid rgba(26,86,219,0.15);">
+            <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:0.85rem;">28 Modules — 100% Path Completed</div>
+            <div class="mod-grid">
+              <div class="mod-row"><span class="mod-name">Penetration Testing Process</span><span class="mod-tag general">General</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Getting Started</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Network Enumeration with Nmap</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Footprinting</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Information Gathering — Web</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Vulnerability Assessment</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">File Transfers</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Shells &amp; Payloads</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Using the Metasploit Framework</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Password Attacks</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Attacking Common Services</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Pivoting, Tunneling &amp; Port Forwarding</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Active Directory Enum &amp; Attacks</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Using Web Proxies</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Attacking Web Apps with Ffuf</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Login Brute Forcing</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">SQL Injection Fundamentals</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">SQLMap Essentials</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Cross-Site Scripting (XSS)</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">File Inclusion</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">File Upload Attacks</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Command Injections</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Web Attacks</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Attacking Common Applications</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Linux Privilege Escalation</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Windows Privilege Escalation</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Documentation &amp; Reporting</span><span class="mod-tag general">General</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">Attacking Enterprise Networks</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRTP Accordion -->
+      <div id="crtp-accordion" style="border:1px solid rgba(26,86,219,0.2);background:rgba(6,15,31,0.97);overflow:hidden;margin-top:1rem;">
+        <div onclick="toggleAccordion('crtp-modules', 'crtp-arrow')" style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;cursor:pointer;user-select:none;gap:1rem;transition:background 0.2s;" onmouseenter="this.style.background='rgba(26,86,219,0.07)'" onmouseleave="this.style.background='transparent'" id="crtp-header">
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:var(--syne);font-size:1rem;font-weight:600;color:#ffffff;margin-bottom:0.2rem;">Certified Red Team Professional (CRTP)</div>
+            <div style="font-family:var(--mono);font-size:0.7rem;color:rgba(255,255,255,0.35);">13 Modules · Medium Penetration Testing</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1.25rem;flex-shrink:0;">
+            <div style="font-family:var(--mono);font-size:0.7rem;color:var(--blue);">Altered Security</div>
+            <div id="crtp-arrow" style="font-family:var(--mono);font-size:1rem;color:var(--blue);transition:transform 0.3s;line-height:1;">▾</div>
+          </div>
+        </div>
+        <div id="crtp-modules" style="max-height:0;overflow:hidden;transition:max-height 0.5s ease;">
+          <div style="padding:1.25rem 1.5rem;border-top:1px solid rgba(26,86,219,0.15);">
+            <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:0.85rem;">Red Team Lab — Active Directory Course Outline</div>
+            <div class="mod-grid">
+              <div class="mod-row"><span class="mod-name">I. Active Directory Enumeration</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">II. Offensive PowerShell Tradecraft</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">III. Offensive .NET Tradecraft</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">IV. Local Privilege Escalation</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">V. Domain Privilege Escalation</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">VI. Domain Persistence and Dominance</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">VII. Cross Trust Attacks</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">VIII. Abusing AD CS</span><span class="mod-tag offensive">Offensive</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">IX. Defenses and bypass – MDE EDR</span><span class="mod-tag defense">Defense</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">X. Defenses and bypass – MDI</span><span class="mod-tag defense">Defense</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">XI. Defenses and bypass – Architecture and Work Culture Changes</span><span class="mod-tag defense">Defense</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">XII. Defenses – Monitoring</span><span class="mod-tag defense">Defense</span><span class="mod-done">✓</span></div>
+              <div class="mod-row"><span class="mod-name">XIII. Defenses and Bypass – Deception</span><span class="mod-tag defense">Defense</span><span class="mod-done">✓</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WRITING -->
+<section id="writing">
+  <div class="sec-label reveal">Writing</div>
+  <h2 class="sec-title reveal">CTF Writeups &amp; <em>Research</em></h2>
+  <p class="sec-sub reveal" style="max-width:520px;margin-bottom:2.5rem;">Documented attack chains, CTF solutions, and offensive security research — published on Medium.</p>
+
+  <!-- Track + cards -->
+  <div class="carousel-outer reveal">
+    <div class="carousel-track" id="carousel-track">
+      <a href="https://medium.com/@h4cky" target="_blank" class="wc">
+        <div class="wc-num">01</div>
+        <div class="wc-cat">CTF Writeup</div>
+        <div class="wc-title">Active Directory Attack Chains</div>
+        <div class="wc-body">Walkthroughs of full AD exploitation paths — Kerberoasting, DCSync, ACL abuse and lateral movement in enterprise environments.</div>
+        <div class="wc-foot">Medium ↗</div>
+      </a>
+      <a href="https://medium.com/@h4cky" target="_blank" class="wc">
+        <div class="wc-num">02</div>
+        <div class="wc-cat">CTF Writeup</div>
+        <div class="wc-title">Web Application Vulnerabilities</div>
+        <div class="wc-body">SQLi, XSS, file upload bypass, IDOR and business logic exploitation from real CTF boxes and HackTheBox machines.</div>
+        <div class="wc-foot">Medium ↗</div>
+      </a>
+      <a href="https://medium.com/@h4cky" target="_blank" class="wc">
+        <div class="wc-num">03</div>
+        <div class="wc-cat">HTB Machine</div>
+        <div class="wc-title">Privilege Escalation Deep Dive</div>
+        <div class="wc-body">Windows and Linux privesc techniques — misconfigured services, token impersonation, SUID abuse and kernel exploits.</div>
+        <div class="wc-foot">Medium ↗</div>
+      </a>
+      <a href="https://medium.com/@h4cky" target="_blank" class="wc">
+        <div class="wc-num">04</div>
+        <div class="wc-cat">Research</div>
+        <div class="wc-title">Kerberos Attack Playbook</div>
+        <div class="wc-body">AS-REP Roasting, Kerberoasting, Pass-the-Ticket and Silver/Golden Ticket attacks broken down step by step.</div>
+        <div class="wc-foot">Medium ↗</div>
+      </a>
+      <a href="https://medium.com/@h4cky" target="_blank" class="wc">
+        <div class="wc-num">05</div>
+        <div class="wc-cat">CTF Writeup</div>
+        <div class="wc-title">Network Pivoting Techniques</div>
+        <div class="wc-body">Ligolo-ng, Chisel and SSH tunneling to traverse segmented networks and reach internal assets during penetration tests.</div>
+        <div class="wc-foot">Medium ↗</div>
+      </a>
+      <a href="https://medium.com/@h4cky" target="_blank" class="wc">
+        <div class="wc-num">06</div>
+        <div class="wc-cat">Research</div>
+        <div class="wc-title">ADCS ESC Vulnerabilities</div>
+        <div class="wc-body">Exploiting Active Directory Certificate Services misconfigurations (ESC1–ESC8) to escalate to domain admin.</div>
+        <div class="wc-foot">Medium ↗</div>
+      </a>
+    </div>
+    <!-- Controls -->
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="carousel-prev" onclick="carouselMove(-1)" aria-label="Previous">←</button>
+      <div class="carousel-dots" id="carousel-dots"></div>
+      <button class="carousel-btn" id="carousel-next" onclick="carouselMove(1)" aria-label="Next">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology" style="position:relative;overflow:hidden;">
+  <!-- marble -->
+  <svg class="marble-tex" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs><filter id="mf-method"><feTurbulence type="fractalNoise" baseFrequency="0.007 0.004" numOctaves="8" seed="19"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="gamma" amplitude="1.4" exponent="0.3" offset="-0.1"/><feFuncG type="gamma" amplitude="1.4" exponent="0.3" offset="-0.1"/><feFuncB type="gamma" amplitude="1.6" exponent="0.3" offset="0"/></feComponentTransfer></filter></defs>
+    <rect width="100%" height="100%" fill="white" filter="url(#mf-method)"/>
+  </svg>
+  <svg class="marble-veins" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <line x1="-5%" y1="38%" x2="105%" y2="62%" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+    <line x1="-5%" y1="42%" x2="105%" y2="65%" stroke="rgba(255,255,255,0.011)" stroke-width="0.5"/>
+    <line x1="22%" y1="-5%" x2="35%" y2="105%" stroke="rgba(255,255,255,0.015)" stroke-width="0.6"/>
+    <line x1="75%" y1="-5%" x2="85%" y2="105%" stroke="rgba(255,255,255,0.017)" stroke-width="0.7"/>
+  </svg>
+  <div class="sec-label reveal">Methodology</div>
+  <h2 class="sec-title reveal">How I <em>work</em></h2>
+  <p class="sec-sub reveal">A strategic, human-led approach — looking for what automated tools miss.</p>
+
+  <div class="method-grid reveal">
+    <div class="method-step">
+      <div class="method-num">01</div>
+      <div class="method-icon">◎</div>
+      <div class="method-title">Analysis &amp; Recon</div>
+      <div class="method-desc">Understanding business logic and mapping the attack surface before touching a single tool.</div>
+    </div>
+    <div class="method-step">
+      <div class="method-num">02</div>
+      <div class="method-icon">◈</div>
+      <div class="method-title">Strategic Planning</div>
+      <div class="method-desc">Custom attack strategy tailored to the specific technology stack and requirements.</div>
+    </div>
+    <div class="method-step">
+      <div class="method-num">03</div>
+      <div class="method-icon">◉</div>
+      <div class="method-title">Manual Exploitation</div>
+      <div class="method-desc">Deep-dive manual testing to uncover complex logic flaws and critical vulnerabilities.</div>
+    </div>
+    <div class="method-step">
+      <div class="method-num">04</div>
+      <div class="method-icon">◌</div>
+      <div class="method-title">Remediation</div>
+      <div class="method-desc">Clear, actionable reports with guidance to help teams fix issues effectively.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+
+    <!-- Sol -->
+    <div>
+      <div class="sec-label reveal">Find Me</div>
+      <h2 class="sec-title reveal">Get in <em>touch</em></h2>
+      <p class="sec-sub reveal">Pentest pozisyonları ve güvenlik rolleri için açık profilleri aşağıdan inceleyebilirsiniz.</p>
+
+      <div class="contact-info reveal">
+        <div class="contact-row">
+          <div class="contact-row-icon">// location</div>
+          <div class="contact-row-val">Istanbul, Turkey</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">// linkedin</div>
+          <div class="contact-row-val"><a href="https://www.linkedin.com/in/hackyman/" target="_blank">linkedin.com/in/hackyman</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sağ: Platform linkleri -->
+    <div class="reveal">
+      <div style="font-family:var(--mono);font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:1.5rem;">// Profiles &amp; Platforms</div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+
+        <!-- HackTheBox -->
+        <a href="https://profile.hackthebox.com/profile/019c5355-d2e7-71ba-97dc-82824dfbacb4" target="_blank" class="platform-link">
+          <div class="pl-left">
+            <div class="pl-icon" style="background:rgba(159,239,0,0.08);border-color:rgba(159,239,0,0.2);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z" stroke="#9fef00" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 2v20M2 7l10 5 10-5" stroke="#9fef00" stroke-width="1.5"/></svg>
+            </div>
+            <div>
+              <div class="pl-name">Hack The Box</div>
+              <div class="pl-sub">Public Profile · CPTS Certified</div>
+            </div>
+          </div>
+          <div class="pl-arrow">↗</div>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/hackyman/" target="_blank" class="platform-link">
+          <div class="pl-left">
+            <div class="pl-icon" style="background:rgba(10,102,194,0.08);border-color:rgba(10,102,194,0.2);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#0a66c2" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+            <div>
+              <div class="pl-name">LinkedIn</div>
+              <div class="pl-sub">linkedin.com/in/hackyman</div>
+            </div>
+          </div>
+          <div class="pl-arrow">↗</div>
+        </a>
+
+        <!-- Medium -->
+        <a href="https://medium.com/@h4cky" target="_blank" class="platform-link">
+          <div class="pl-left">
+            <div class="pl-icon" style="background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.1);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--navy)" xmlns="http://www.w3.org/2000/svg"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+            </div>
+            <div>
+              <div class="pl-name">Medium</div>
+              <div class="pl-sub">CTF Writeups &amp; Security Research</div>
+            </div>
+          </div>
+          <div class="pl-arrow">↗</div>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer style="position:relative;overflow:hidden;">
+  <svg class="marble-tex" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="opacity:0.012;">
+    <defs><filter id="mf-footer"><feTurbulence type="fractalNoise" baseFrequency="0.007 0.004" numOctaves="8" seed="3"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="gamma" amplitude="1.4" exponent="0.3" offset="-0.1"/><feFuncG type="gamma" amplitude="1.4" exponent="0.3" offset="-0.1"/><feFuncB type="gamma" amplitude="1.6" exponent="0.3" offset="0"/></feComponentTransfer></filter></defs>
+    <rect width="100%" height="100%" fill="white" filter="url(#mf-footer)"/>
+  </svg>
+  <svg class="marble-veins" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <line x1="-5%" y1="40%" x2="105%" y2="70%" stroke="rgba(255,255,255,0.02)" stroke-width="0.7"/>
+    <line x1="55%" y1="-5%" x2="65%" y2="105%" stroke="rgba(255,255,255,0.014)" stroke-width="0.5"/>
+  </svg>
+  <div class="footer-logo"><span>//</span> IRFAN CAN BOGAC</div>
+  <div class="footer-copy">© 2025 · Penetration Tester · Offensive Security Professional</div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<script>
+const nav = document.getElementById('nav');
+const navToggle = document.getElementById('nav-toggle');
+const progressBar = document.getElementById('scroll-progress');
+const backToTop = document.getElementById('back-to-top');
+
+// Scroll effects
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  progressBar.style.width = scrolled + "%";
+
+  // Active nav link highlight
+  const sections = document.querySelectorAll('section[id], div.stats-band');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  let current = '';
+  sections.forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - 120) current = sec.id || '';
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+
+navToggle.addEventListener('click', () => {
+  nav.classList.toggle('nav-open');
+  navToggle.textContent = nav.classList.contains('nav-open') ? 'CLOSE' : 'MENU';
+});
+
+// Close nav on link click (mobile)
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('nav-open');
+    navToggle.textContent = 'MENU';
+  });
+});
+
+// Intersection observer for reveals
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Animated counter for stats
+function animateCounter(el, target, suffix) {
+  const duration = 1800;
+  const start = performance.now();
+  const update = (time) => {
+    const progress = Math.min((time - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const statNums = entry.target.querySelectorAll('.stat-num');
+      statNums.forEach(el => {
+        const text = el.textContent;
+        const match = text.match(/(\d+)(\+?)/);
+        if (match) {
+          const num = parseInt(match[1]);
+          const suffix = match[2] || '';
+          const span = el.querySelector('span');
+          const spanText = span ? span.textContent : '';
+          el.innerHTML = `<span style="color:var(--blue)">${spanText}</span>`;
+          animateCounter(el, num, suffix + (span ? '' : ''));
+        }
+      });
+      statsObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+const statsBand = document.querySelector('.stats-band');
+if (statsBand) statsObserver.observe(statsBand);
+
+// Accordion
+function toggleAccordion(modulesId, arrowId) {
+  const modules = document.getElementById(modulesId);
+  const arrow = document.getElementById(arrowId);
+  if (!modules || !arrow) return;
+  const isOpen = modules.style.maxHeight && modules.style.maxHeight !== '0px';
+  if (isOpen) {
+    modules.style.maxHeight = '0px';
+    arrow.style.transform = 'rotate(0deg)';
+  } else {
+    modules.style.maxHeight = modules.scrollHeight + 'px';
+    arrow.style.transform = 'rotate(180deg)';
+  }
+}
+
+// Carousel
+(function(){
+  const track = document.getElementById('carousel-track');
+  const dotsEl = document.getElementById('carousel-dots');
+  if (!track) return;
+
+  const cards = Array.from(track.querySelectorAll('.wc'));
+  const total = cards.length;
+  let current = 0;
+  let perView = 3;
+
+  function getPerView(){
+    if(window.innerWidth <= 600) return 1;
+    if(window.innerWidth <= 1024) return 2;
+    return 3;
+  }
+
+  function maxIndex(){
+    return Math.max(0, total - perView);
+  }
+
+  function buildDots(){
+    dotsEl.innerHTML = '';
+    const count = maxIndex() + 1;
+    for(let i = 0; i < count; i++){
+      const d = document.createElement('div');
+      d.className = 'cdot' + (i === current ? ' active' : '');
+      d.onclick = () => goTo(i);
+      dotsEl.appendChild(d);
+    }
+  }
+
+  function updateDots(){
+    Array.from(dotsEl.querySelectorAll('.cdot')).forEach((d,i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function goTo(idx){
+    perView = getPerView();
+    current = Math.max(0, Math.min(idx, maxIndex()));
+    const cardW = cards[0].offsetWidth;
+    track.style.transform = `translateX(-${current * cardW}px)`;
+    updateDots();
+  }
+
+  window.carouselMove = function(dir){
+    goTo(current + dir);
+  };
+
+  function init(){
+    perView = getPerView();
+    cards.forEach(c => { c.style.width = (100 / perView) + '%'; });
+    goTo(0);
+    buildDots();
+  }
+
+  init();
+  window.addEventListener('resize', () => { init(); });
+
+  // Touch/swipe support
+  let startX = 0;
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if(Math.abs(dx) > 40) carouselMove(dx < 0 ? 1 : -1);
+  });
+})();
+
+// Keyboard navigation for carousel
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') window.carouselMove && carouselMove(-1);
+  if (e.key === 'ArrowRight') window.carouselMove && carouselMove(1);
+});
+</script>
+</body>
+</html>
